@@ -10,7 +10,7 @@
 #include<QFrame>
 LoginPage::LoginPage(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::LoginPage)
 {
     ui->setupUi(this);
     this ->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
