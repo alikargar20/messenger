@@ -7,7 +7,7 @@ Main_b::Main_b(QString token,QWidget *parent) :
     ui(new Ui::Main_b)
 {
     this->token=token;
-    qDebug()<<this->token;
+    //qDebug()<<this->token;
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
   //  connect(manager,&QNetworkAccessManager::finished,this,&intro::reg_Reply);
