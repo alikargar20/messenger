@@ -13,7 +13,7 @@
 
 
 namespace Ui {
-class MainWindow;
+class LoginPage;
 }
 
 class LoginPage : public QMainWindow
@@ -26,13 +26,13 @@ public:
     ~LoginPage();
     void replyLog(QNetworkReply * reply);
     QString getToken();
-    bool succeed;
+
 private:
 
     QNetworkAccessManager *log;
     QString token;
     QNetworkRequest req;
-    Ui::MainWindow *ui;
+    Ui::LoginPage *ui;
     Register *regist;
 public slots:
 
