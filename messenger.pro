@@ -28,3 +28,6 @@ FORMS    += \
     login.ui
 
 DISTFILES +=
+
+RESOURCES += \
+    resource.qrc

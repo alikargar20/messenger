@@ -13,17 +13,17 @@ LoginPage::LoginPage(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this ->setStyleSheet("background-image: url(/home/siavash/Desktop/5.jpeg);");
+    this ->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
     log = new QNetworkAccessManager(this);
     connect(ui -> login , &QPushButton::clicked , this , &LoginPage :: login );
-
     connect(log,&QNetworkAccessManager::finished,this,&LoginPage::replyLog);
-
+    ui->image->setPixmap(QPixmap(":/model/image/ggg_1.jpeg"));
 
 }
 
 void LoginPage::replyLog(QNetworkReply * reply){
-
+    ui->progressBar->setValue(70);
+    ui->progressBar->setValue(100);
     QString rep_str = reply->readAll();
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject rep_obj=jdoc.object();
@@ -61,7 +61,8 @@ void LoginPage::login(){
     url.setQuery(query);
     req.setUrl(url);
     log->get(req);
-
+    ui->progressBar->setValue(20);
+    ui->progressBar->setValue(50);
 
 }
 
