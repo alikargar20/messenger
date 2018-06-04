@@ -1,5 +1,5 @@
 #include "loginpage.h"
-#include "ui_login.h"
+#include "ui_loginpage.h"
 #include "main_b.h"
 #include"register.h"
 
@@ -25,8 +25,8 @@ void LoginPage::replyLog(QNetworkReply * reply){
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject rep_obj=jdoc.object();
     token=rep_obj["token"].toString();
-
-    ui->textEdit->setText(rep_obj["message"].toString());
+    ui->textEdit->setText(rep_obj["code"].toString());
+    //ui->textEdit->setText(rep_obj["message"].toString());
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token,this);
         w->show();

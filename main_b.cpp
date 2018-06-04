@@ -11,8 +11,7 @@ Main_b::Main_b(QString token,QWidget *parent) :
     //qDebug()<<this->token;
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
-  //  connect(manager,&QNetworkAccessManager::finished,this,&intro::reg_Reply);
-
+     //connect(manager,&QNetworkAccessManager::finished,this,&intro::reg_Reply);
 
 
 
@@ -26,3 +25,9 @@ Main_b::~Main_b()
 
 
 
+
+void Main_b::on_searchBut_clicked()
+{
+    QString str = ui->search->text();
+
+}

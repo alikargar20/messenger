@@ -25,6 +25,10 @@ protected:
     QNetworkAccessManager *manager;
     QNetworkRequest  req;
     QString token;
+private slots:
+
+
+    void on_searchBut_clicked();
 };
 
 #endif // MAIN_B_H

@@ -15,7 +15,7 @@
 #include<QGraphicsScene>
 #include<QGraphicsPixmapItem>
 #include<QFrame>
-
+#include"main_b.h"
 
 namespace Ui {
 class LoginPage;
