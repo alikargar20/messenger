@@ -1,6 +1,6 @@
 #include "getlist.h"
 
-GetList::GetList()
+GetList::GetList(QString token):Main_b(token)
 {
 
 }

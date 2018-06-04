@@ -1,13 +1,8 @@
 #include "loginpage.h"
 #include "ui_login.h"
 #include "main_b.h"
-#include<QPixmap>
-#include<QGraphicsView>
-#include<QGraphicsScene>
-#include<QGraphicsPixmapItem>
 #include"register.h"
-#include<QDebug>
-#include<QFrame>
+
 LoginPage::LoginPage(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LoginPage)
@@ -37,7 +32,6 @@ void LoginPage::replyLog(QNetworkReply * reply){
         w->show();
         setCentralWidget(w);
         w->setGeometry(300,0,802,606);
-
         this->hide();
 
 
