@@ -15,15 +15,12 @@ class Main_b : public QMainWindow
 public:
     explicit Main_b(QString token,QWidget *parent = 0);
     ~Main_b();
-    void getuserlist();
-    void getgrouplist();
-    void getchannellist();
-    void updatelist();
 
 
 
 
-private:
+
+protected:
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
     QNetworkRequest  req;
