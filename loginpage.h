@@ -10,6 +10,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include<QDebug>
+#include<QPixmap>
+#include<QGraphicsView>
+#include<QGraphicsScene>
+#include<QGraphicsPixmapItem>
+#include<QFrame>
 
 
 namespace Ui {
