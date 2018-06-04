@@ -1,6 +1,8 @@
 #ifndef LOGINPAGE_H
 #define LOGINPAGE_H
 #include"register.h"
+#include "setquery.h"
+#include "main_b.h"
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -33,7 +35,7 @@ public:
     QString getToken();
 
 private:
-
+    SetQuery *url;
     QNetworkAccessManager *log;
     QString token;
     QNetworkRequest req;
