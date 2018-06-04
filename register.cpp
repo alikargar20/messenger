@@ -5,6 +5,7 @@ Register::Register(QWidget *parent) :
     QMainWindow(parent),
     ui2(new Ui::Register)
 {
+    url=new SetQuery();
     ui2->setupUi(this);
     manager = new QNetworkAccessManager(this);
     connect(ui2->signup , &QPushButton::clicked , this , &Register :: reg);
@@ -21,14 +22,9 @@ void Register :: reg(){
     QString nPro = ui2 ->nPro ->text();
     QString fName = ui2 ->Fname->text();
     QString lName = ui2->Lname->text();
-    QUrl url("http://api.softserver.org:1104/signup");
-    QUrlQuery query;
-    query.addQueryItem("username",nUser);
-    query.addQueryItem("password",nPass);
-    query.addQueryItem("firsname",fName);
-    query.addQueryItem("lastname",lName);
-    url.setQuery(query);
-    req.setUrl(url);
+
+
+    req.setUrl(url->setSignUpQuery(nUser,nPass,fName,lName));
     manager->get(req);
 
 }

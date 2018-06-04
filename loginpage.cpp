@@ -1,12 +1,14 @@
 #include "loginpage.h"
-#include "ui_login.h"
-#include "main_b.h"
-#include"register.h"
+#include "ui_loginpage.h"
+
+
+
 
 LoginPage::LoginPage(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LoginPage)
 {
+    url=new SetQuery();
     setGeometry(300,0,795,715);
     this->setFixedSize(795,715);
     ui->setupUi(this);
@@ -52,12 +54,7 @@ void LoginPage::login(){
 
     QString  username = ui -> user ->text();
     QString  password = ui -> pass ->text();
-    QUrl url("http://api.softserver.org:1104/login");
-    QUrlQuery query;
-    query.addQueryItem("username" , username);
-    query.addQueryItem("password" , password);
-    url.setQuery(query);
-    req.setUrl(url);
+    req.setUrl(url->setLoginQuery(username,password));
     log->get(req);
     ui->progressBar->setValue(20);
     ui->progressBar->setValue(50);
