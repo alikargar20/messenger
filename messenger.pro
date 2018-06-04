@@ -15,17 +15,21 @@ TEMPLATE = app
 SOURCES += main.cpp\
     register.cpp \
     main_b.cpp \
-    loginpage.cpp
+    loginpage.cpp \
+    getlist.cpp \
+    setquery.cpp
 
 HEADERS  += \
     register.h \
     main_b.h \
-    loginpage.h
+    loginpage.h \
+    getlist.h \
+    setquery.h
 
 FORMS    += \
     register.ui \
     main_b.ui \
-    login.ui
+    loginpage.ui
 
 DISTFILES +=
 

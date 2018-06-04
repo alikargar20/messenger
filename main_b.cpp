@@ -1,4 +1,5 @@
 #include "main_b.h"
+#include "getlist.h"
 #include "ui_main_b.h"
 
 
@@ -22,12 +23,6 @@ Main_b::~Main_b()
     delete ui;
 }
 
-void Main_b::getuserlist()
-{
-    QUrl url("http://api.softserver.org:1104/getuserlist");
-    QUrlQuery query;
-    query.addQueryItem("token",token);
-    url.setQuery(query);
-    req.setUrl(url);
-    manager->get(req);
-}
+
+
+
