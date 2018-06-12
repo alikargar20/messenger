@@ -19,16 +19,17 @@ public:
     QUrl setCreateGroupQuery(QString group_name,QString group_title);
     QUrl setCreateChannelQuery(QString channel_name,QString channel_title);
     QUrl setGetUserListQuery();
-    QUrl setGetGroupListQuert();
+    QUrl setGetGroupListQuery();
     QUrl setGetChannelListQuery();
-    QUrl setGetUserChatsQuery(QString username_dst);
-    QUrl setGetGroupChatsQuery(QString group_dst);
-    QUrl setGetChannelChatsQuery(QString channel_dst);
+    QUrl setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss="");
+    QUrl setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmmss="");
+    QUrl setGetChannelChatsQuery(QString channel_dst,QString date_YYYYMMDDHHmmss="");
     QUrl setJoinGroupQuery(QString group_name);
     QUrl setJoinChannelQuery(QString channel_name);
     QUrl setSendMessageUser(QString username_dst,QString body);
     QUrl setSendMessageGroup(QString group_dst,QString body);
     QUrl setSendMessageChannel(QString channel_dst,QString body);
+    QUrl setGetNameQuery(QString username);
 };
 
 #endif // SETQUERY_H
