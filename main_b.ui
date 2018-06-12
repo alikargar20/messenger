@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>20</y>
       <width>256</width>
       <height>560</height>
      </rect>
@@ -51,6 +51,19 @@
        <height>519</height>
       </rect>
      </property>
+     <widget class="QPushButton" name="logout">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>0</y>
+        <width>80</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Log out</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLineEdit" name="lineEdit">

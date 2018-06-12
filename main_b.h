@@ -13,9 +13,9 @@ class Main_b : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Main_b(QString token,QWidget *parent = 0);
+    explicit Main_b( QString token , QString user , QString pass , QWidget *parent = 0);
     ~Main_b();
-
+    void Reply(QNetworkReply * rep);
 
 
 
@@ -25,10 +25,15 @@ protected:
     QNetworkAccessManager *manager;
     QNetworkRequest  req;
     QString token;
+    SetQuery * url;
+    QNetworkReply * rep;
+    QString username;
+    QString password;
 private slots:
 
 
     void on_searchBut_clicked();
+    void on_logout_clicked();
 };
 
 #endif // MAIN_B_H

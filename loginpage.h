@@ -1,6 +1,8 @@
 #ifndef LOGINPAGE_H
 #define LOGINPAGE_H
 #include"register.h"
+#include "setquery.h"
+#include "main_b.h"
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -16,7 +18,7 @@
 #include<QGraphicsPixmapItem>
 #include<QFrame>
 #include"main_b.h"
-
+#include<QString>
 namespace Ui {
 class LoginPage;
 }
@@ -31,14 +33,19 @@ public:
     ~LoginPage();
     void replyLog(QNetworkReply * reply);
     QString getToken();
+    QString getUser();
+    QString getPass();
+
 
 private:
-
+    SetQuery *url;
     QNetworkAccessManager *log;
     QString token;
     QNetworkRequest req;
     Ui::LoginPage *ui;
     Register *regist;
+    QString user;
+    QString pass;
 public slots:
 
 

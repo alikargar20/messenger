@@ -7,6 +7,7 @@ LoginPage::LoginPage(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LoginPage)
 {
+    url=new SetQuery();
     setGeometry(300,0,795,715);
     this->setFixedSize(795,715);
     ui->setupUi(this);
@@ -25,10 +26,12 @@ void LoginPage::replyLog(QNetworkReply * reply){
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject rep_obj=jdoc.object();
     token=rep_obj["token"].toString();
+    user = rep_obj["username"].toString();
+    pass = rep_obj["password"].toString();
     ui->textEdit->setText(rep_obj["code"].toString());
     //ui->textEdit->setText(rep_obj["message"].toString());
     if(rep_obj["code"].toString() == "200" ){
-        Main_b *w = new Main_b(token,this);
+        Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
         setCentralWidget(w);
         w->setGeometry(300,0,802,606);
@@ -46,18 +49,24 @@ QString LoginPage::getToken()
     return token;
 }
 
+QString LoginPage::getUser()
+{
+    return user;
+}
+
+QString LoginPage::getPass()
+{
+    return pass;
+}
+
+
 
 
 void LoginPage::login(){
 
     QString  username = ui -> user ->text();
     QString  password = ui -> pass ->text();
-    QUrl url("http://api.softserver.org:1104/login");
-    QUrlQuery query;
-    query.addQueryItem("username" , username);
-    query.addQueryItem("password" , password);
-    url.setQuery(query);
-    req.setUrl(url);
+    req.setUrl(url->setLoginQuery(username,password));
     log->get(req);
     ui->progressBar->setValue(20);
     ui->progressBar->setValue(50);

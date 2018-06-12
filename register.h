@@ -1,5 +1,6 @@
 #ifndef REGISTER_H
 #define REGISTER_H
+#include "setquery.h"
 #include <QMainWindow>
 #include <QWidget>
 #include <QPushButton>
@@ -32,6 +33,7 @@ private slots:
 
 private:
     Ui::Register *ui2;
+    SetQuery *url;
     QNetworkAccessManager *manager;
     QNetworkRequest  req;
 };
