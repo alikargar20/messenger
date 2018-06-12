@@ -23,7 +23,7 @@ void GetList::getuserlist()
 void GetList::getgrouplist()
 {
 
-    req.setUrl(url->setGetGroupListQuert());
+    req.setUrl(url->setGetGroupListQuery());
     manager->get(req);
     manager->finished(reply);
     QString rep_str = reply->readAll();

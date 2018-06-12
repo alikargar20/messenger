@@ -19,7 +19,7 @@ public:
     QUrl setCreateGroupQuery(QString group_name,QString group_title);
     QUrl setCreateChannelQuery(QString channel_name,QString channel_title);
     QUrl setGetUserListQuery();
-    QUrl setGetGroupListQuert();
+    QUrl setGetGroupListQuery();
     QUrl setGetChannelListQuery();
     QUrl setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss="");
     QUrl setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmmss="");

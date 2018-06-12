@@ -75,7 +75,7 @@ QUrl SetQuery::setGetUserListQuery()
     return url;
 }
 
-QUrl SetQuery::setGetGroupListQuert()
+QUrl SetQuery::setGetGroupListQuery()
 {
     url.setUrl(url_str+"getgrouplist");
     query.addQueryItem("token",token);
