@@ -2,17 +2,14 @@
 
 GetList::GetList(QString token):Main_b(token)
 {
-
+    url=new SetQuery();
+    url->setToken(token);
 }
 
 void GetList::getuserlist()
 {
 
-    QUrl url("http://api.softserver.org:1104/getuserlist");
-    QUrlQuery query;
-    query.addQueryItem("token",token);
-    url.setQuery(query);
-    req.setUrl(url);
+    req.setUrl(url->setGetUserListQuery());
     manager->get(req);
     manager->finished(reply);
     QString rep_str = reply->readAll();
@@ -26,11 +23,7 @@ void GetList::getuserlist()
 void GetList::getgrouplist()
 {
 
-    QUrl url("http://api.softserver.org:1104/getgrouplist");
-    QUrlQuery query;
-    query.addQueryItem("token",token);
-    url.setQuery(query);
-    req.setUrl(url);
+    req.setUrl(url->setGetGroupListQuery());
     manager->get(req);
     manager->finished(reply);
     QString rep_str = reply->readAll();
