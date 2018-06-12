@@ -93,7 +93,7 @@ QUrl SetQuery::setGetChannelListQuery()
     return url;
 }
 
-QUrl SetQuery::setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss="")
+QUrl SetQuery::setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss)
 {
     url.setUrl(url_str+"getuserchats");
     query.addQueryItem("token",token);
@@ -105,7 +105,7 @@ QUrl SetQuery::setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHH
     return url;
 }
 
-QUrl SetQuery::setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmmss="")
+QUrl SetQuery::setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmmss)
 {
     url.setUrl(url_str+"getgroupchats");
     query.addQueryItem("token",token);
@@ -117,7 +117,7 @@ QUrl SetQuery::setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmm
     return url;
 }
 
-QUrl SetQuery::setGetChannelChatsQuery(QString channel_dst,QString date_YYYYMMDDHHmmss="")
+QUrl SetQuery::setGetChannelChatsQuery(QString channel_dst,QString date_YYYYMMDDHHmmss)
 {
     url.setUrl(url_str+"getchannelchats");
     query.addQueryItem("token",token);
