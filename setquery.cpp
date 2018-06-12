@@ -93,31 +93,37 @@ QUrl SetQuery::setGetChannelListQuery()
     return url;
 }
 
-QUrl SetQuery::setGetUserChatsQuery(QString username_dst)
+QUrl SetQuery::setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss="")
 {
     url.setUrl(url_str+"getuserchats");
     query.addQueryItem("token",token);
     query.addQueryItem("dst",username_dst);
+    if(date_YYYYMMDDHHmmss != "")
+        query.addQueryItem("date",date_YYYYMMDDHHmmss);
     url.setQuery(query);
     query.clear();
     return url;
 }
 
-QUrl SetQuery::setGetGroupChatsQuery(QString group_dst)
+QUrl SetQuery::setGetGroupChatsQuery(QString group_dst,QString date_YYYYMMDDHHmmss="")
 {
     url.setUrl(url_str+"getgroupchats");
     query.addQueryItem("token",token);
     query.addQueryItem("dst",group_dst);
+    if(date_YYYYMMDDHHmmss != "")
+        query.addQueryItem("date",date_YYYYMMDDHHmmss);
     url.setQuery(query);
     query.clear();
     return url;
 }
 
-QUrl SetQuery::setGetChannelChatsQuery(QString channel_dst)
+QUrl SetQuery::setGetChannelChatsQuery(QString channel_dst,QString date_YYYYMMDDHHmmss="")
 {
     url.setUrl(url_str+"getchannelchats");
     query.addQueryItem("token",token);
     query.addQueryItem("dst",channel_dst);
+    if(date_YYYYMMDDHHmmss != "")
+        query.addQueryItem("date",date_YYYYMMDDHHmmss);
     url.setQuery(query);
     query.clear();
     return url;
@@ -171,6 +177,15 @@ QUrl SetQuery::setSendMessageChannel(QString channel_dst, QString body)
     query.addQueryItem("token",token);
     query.addQueryItem("dst",channel_dst);
     query.addQueryItem("body",body);
+    url.setQuery(query);
+    query.clear();
+    return url;
+}
+
+QUrl SetQuery::setGetNameQuery(QString username)
+{
+    url.setUrl(url_str+"getname");
+    query.addQueryItem("username",username);
     url.setQuery(query);
     query.clear();
     return url;
