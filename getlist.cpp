@@ -1,6 +1,6 @@
 #include "getlist.h"
 
-GetList::GetList(QString token):Main_b(token)
+GetList::GetList(QString token):Main_b(token , username , password)
 {
     url=new SetQuery();
     url->setToken(token);

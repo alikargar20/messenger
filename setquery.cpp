@@ -1,5 +1,5 @@
 #include "setquery.h"
-
+#include<QDebug>
 SetQuery::SetQuery()
 {
     url_str="http://api.softserver.org:1104/";
@@ -37,9 +37,12 @@ QUrl SetQuery::setLogOutQuery(QString userName,QString pass)
 {
     url.setUrl(url_str+"logout");
     query.addQueryItem("username",userName);
+    qDebug()<<userName <<"user";
     query.addQueryItem("password",pass);
+    qDebug()<< pass << "query";
     url.setQuery(query);
     query.clear();
+    qDebug()<< url;
     return url;
 
 }

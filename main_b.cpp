@@ -33,8 +33,8 @@ void Main_b::on_searchBut_clicked()
     manager->get(req);
     manager->finished(rep);
     QString rep_str = rep->readAll();
-    QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
-    QJsonObject jobj=jdoc.object();
+    QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
+    QJsonObject jobj = jdoc.object();
     qDebug()<< jobj["message"].toString();
 
 
@@ -55,7 +55,9 @@ void Main_b ::Reply(QNetworkReply * rep){
     QString str = rep ->readAll();
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
-    qDebug()<< obj["message"].toString();
+    if(obj["code"].toString() == "200"){
+        this -> close();
+    }
 
 
 }

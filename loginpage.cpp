@@ -26,10 +26,10 @@ void LoginPage::replyLog(QNetworkReply * reply){
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject rep_obj=jdoc.object();
     token=rep_obj["token"].toString();
-    user = rep_obj["username"].toString();
-    pass = rep_obj["password"].toString();
-    ui->textEdit->setText(rep_obj["code"].toString());
-    //ui->textEdit->setText(rep_obj["message"].toString());
+
+    qDebug()<<pass<<"DDD";
+    //ui->textEdit->setText(rep_obj["code"].toString());
+    ui->textEdit->setText(rep_obj["message"].toString());
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
@@ -64,9 +64,9 @@ QString LoginPage::getPass()
 
 void LoginPage::login(){
 
-    QString  username = ui -> user ->text();
-    QString  password = ui -> pass ->text();
-    req.setUrl(url->setLoginQuery(username,password));
+    user = ui -> user ->text();
+    pass = ui -> pass ->text();
+    req.setUrl(url->setLoginQuery(user,pass));
     log->get(req);
     ui->progressBar->setValue(20);
     ui->progressBar->setValue(50);
