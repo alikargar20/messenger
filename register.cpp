@@ -37,8 +37,8 @@ void Register ::reply(QNetworkReply *reply){
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj=jdoc.object();
 
-    jobj["token"].toString();
-    jobj["id"].toString();
+    //jobj["token"].toString();
+    //jobj["id"].toString();
     if( jobj["code"].toString() == "200"){
 
         ui2->textEdit->setText( "    You Signed Up Successfully!!");
