@@ -2,6 +2,7 @@
 #include "getlist.h"
 #include "ui_main_b.h"
 #include"loginpage.h"
+#include "ui_loginpage.h"
 
 Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     QMainWindow(parent),
@@ -56,7 +57,11 @@ void Main_b ::Reply(QNetworkReply * rep){
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
     if(obj["code"].toString() == "200"){
-        this -> close();
+        LoginPage *log = new LoginPage;
+        setCentralWidget(log);
+        log->show();
+
+        //this -> close();
     }
 
 

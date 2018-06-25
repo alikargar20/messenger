@@ -1,8 +1,9 @@
 #ifndef MAIN_B_H
 #define MAIN_B_H
 
-#include "loginpage.h"
 #include <QMainWindow>
+#include"loginpage.h"
+#include "ui_loginpage.h"
 
 namespace Ui {
 class Main_b;

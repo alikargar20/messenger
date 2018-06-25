@@ -33,6 +33,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nPro">
     <property name="geometry">
@@ -172,7 +175,7 @@
      <x>0</x>
      <y>0</y>
      <width>750</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

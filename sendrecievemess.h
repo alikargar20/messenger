@@ -5,6 +5,8 @@ class SendRecieveMess
 {
 public:
     SendRecieveMess();
+    void send();
+    void recive();
 };
 
 #endif // SENDRECIEVEMESS_H

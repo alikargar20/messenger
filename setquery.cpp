@@ -96,7 +96,7 @@ QUrl SetQuery::setGetChannelListQuery()
     return url;
 }
 
-QUrl SetQuery::setGetUserChatsQuery(QString username_dst,QString date_YYYYMMDDHHmmss)
+QUrl SetQuery::setGetUserChatsQuery(QString username_dst ,QString date_YYYYMMDDHHmmss )
 {
     url.setUrl(url_str+"getuserchats");
     query.addQueryItem("token",token);

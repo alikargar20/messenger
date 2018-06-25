@@ -27,8 +27,6 @@ void LoginPage::replyLog(QNetworkReply * reply){
     QJsonObject rep_obj=jdoc.object();
     token=rep_obj["token"].toString();
 
-    qDebug()<<pass<<"DDD";
-    //ui->textEdit->setText(rep_obj["code"].toString());
     ui->textEdit->setText(rep_obj["message"].toString());
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token , user , pass ,this);
