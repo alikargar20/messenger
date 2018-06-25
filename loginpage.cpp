@@ -1,8 +1,7 @@
 #include "loginpage.h"
 #include "ui_loginpage.h"
-
-
-
+#include "main_b.h"
+#include"register.h"
 
 LoginPage::LoginPage(QWidget *parent) :
     QMainWindow(parent),
@@ -31,7 +30,7 @@ void LoginPage::replyLog(QNetworkReply * reply){
 
     ui->textEdit->setText(rep_obj["message"].toString());
     if(rep_obj["code"].toString() == "200" ){
-        Main_b *w = new Main_b(token,this);
+        Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
         setCentralWidget(w);
         w->setGeometry(300,0,802,606);
@@ -49,13 +48,24 @@ QString LoginPage::getToken()
     return token;
 }
 
+QString LoginPage::getUser()
+{
+    return user;
+}
+
+QString LoginPage::getPass()
+{
+    return pass;
+}
+
+
 
 
 void LoginPage::login(){
 
-    QString  username = ui -> user ->text();
-    QString  password = ui -> pass ->text();
-    req.setUrl(url->setLoginQuery(username,password));
+    user = ui -> user ->text();
+    pass = ui -> pass ->text();
+    req.setUrl(url->setLoginQuery(user,pass));
     log->get(req);
     ui->progressBar->setValue(20);
     ui->progressBar->setValue(50);

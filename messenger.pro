@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     main_b.cpp \
     loginpage.cpp \
     getlist.cpp \
-    setquery.cpp
+    setquery.cpp \
+    sendrecievemess.cpp
 
 HEADERS  += \
     register.h \
     main_b.h \
     loginpage.h \
     getlist.h \
-    setquery.h
+    setquery.h \
+    sendrecievemess.h
 
 FORMS    += \
     register.ui \

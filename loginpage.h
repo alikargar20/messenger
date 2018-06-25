@@ -17,8 +17,8 @@
 #include<QGraphicsScene>
 #include<QGraphicsPixmapItem>
 #include<QFrame>
-
-
+#include"main_b.h"
+#include<QString>
 namespace Ui {
 class LoginPage;
 }
@@ -33,6 +33,9 @@ public:
     ~LoginPage();
     void replyLog(QNetworkReply * reply);
     QString getToken();
+    QString getUser();
+    QString getPass();
+
 
 private:
     SetQuery *url;
@@ -41,6 +44,8 @@ private:
     QNetworkRequest req;
     Ui::LoginPage *ui;
     Register *regist;
+    QString user;
+    QString pass;
 public slots:
 
 
