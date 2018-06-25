@@ -1,4 +1,5 @@
 #include "getlist.h"
+#include "ui_main_b.h"
 
 GetList::GetList(QString token):Main_b(token)
 {
@@ -37,11 +38,7 @@ void GetList::getgrouplist()
 void GetList::getchannellist()
 {
 
-    QUrl url("http://api.softserver.org:1104/getchannellist");
-    QUrlQuery query;
-    query.addQueryItem("token",token);
-    url.setQuery(query);
-    req.setUrl(url);
+    req.setUrl(url->setGetChannelListQuery());
     manager->get(req);
     manager->finished(reply);
     QString rep_str = reply->readAll();
@@ -54,6 +51,7 @@ void GetList::getchannellist()
 
 void GetList::updatelist()
 {
+
     getuserlist();
     getchannellist();
     getgrouplist();
