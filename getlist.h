@@ -2,6 +2,7 @@
 #define GETLIST_H
 #include "main_b.h"
 #include "setquery.h"
+
 class GetList : protected Main_b
 {
 private:

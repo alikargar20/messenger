@@ -12,11 +12,12 @@ LoginPage::LoginPage(QWidget *parent) :
     setGeometry(300,0,795,715);
     this->setFixedSize(795,715);
     ui->setupUi(this);
-    this ->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
+    this->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
     log = new QNetworkAccessManager(this);
     connect(ui -> login , &QPushButton::clicked , this , &LoginPage :: login );
     connect(log,&QNetworkAccessManager::finished,this,&LoginPage::replyLog);
-    ui->image->setPixmap(QPixmap(":/model/image/ggg_1.jpeg"));
+    //ui->image->setBackgroundRole();
+    ui->image->setPixmap(QPixmap(":/model/image/ggg_3.png"));
 
 }
 
