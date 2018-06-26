@@ -5,9 +5,6 @@
 #include"loginpage.h"
 #include "ui_loginpage.h"
 #include"sendrecievemess.h"
-#include<QScrollArea>
-#include<QVBoxLayout>
-#include<QHBoxLayout>
 namespace Ui {
 class Main_b;
 }
