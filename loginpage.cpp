@@ -8,8 +8,8 @@ LoginPage::LoginPage(QWidget *parent) :
     ui(new Ui::LoginPage)
 {
     url=new SetQuery();
-    setGeometry(300,0,795,715);
-    this->setFixedSize(795,715);
+    setGeometry(300,40,795,715);
+   // this->setFixedSize(795,715);
     ui->setupUi(this);
     this->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
     log = new QNetworkAccessManager(this);
@@ -43,21 +43,6 @@ void LoginPage::replyLog(QNetworkReply * reply){
 
 }
 
-QString LoginPage::getToken()
-{
-    return token;
-}
-
-QString LoginPage::getUser()
-{
-    return user;
-}
-
-QString LoginPage::getPass()
-{
-    return pass;
-}
-
 
 
 
@@ -83,5 +68,5 @@ void LoginPage::on_signup_clicked()
     regist = new Register(this);
     regist -> show();
     regist->setGeometry(500,140,750,560);
-    regist->setFixedSize(750,560);
+  //  regist->setFixedSize(750,560);
 }

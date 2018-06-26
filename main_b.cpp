@@ -13,9 +13,12 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     this->password = pass;
     ui->setupUi(this);
     manager = new QNetworkAccessManager(this);
+    manage = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
-    url = new SetQuery;
+    connect(manage,&QNetworkAccessManager::finished,this,&Main_b::on_searchBut_reply);
 
+    url = new SetQuery;
+    url->setToken(token);
 }
 
 Main_b::~Main_b()
@@ -29,15 +32,26 @@ Main_b::~Main_b()
 
 void Main_b::on_searchBut_clicked()
 {
-    QString str = ui->search->text();
-    req.setUrl(url->setGetUserChatsQuery(str));
-    manager->get(req);
-    manager->finished(rep);
-    QString rep_str = rep->readAll();
+    str_id = ui->search->text();
+    req.setUrl(url->setGetUserChatsQuery(str_id));
+    manage->get(req);
+
+
+
+
+}
+
+
+void Main_b::on_searchBut_reply(QNetworkReply  *repl){
+    QString rep_str = repl->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj = jdoc.object();
-    qDebug()<< jobj["message"].toString();
+   // qDebug()<<jobj["message"].toString();
+    if(jobj["code"].toString() == "200"){
+        ui->search->setText("");
+        ui->label->setText(str_id);
 
+    }
 
 
 }
@@ -59,10 +73,42 @@ void Main_b ::Reply(QNetworkReply * rep){
     if(obj["code"].toString() == "200"){
         LoginPage *log = new LoginPage;
         setCentralWidget(log);
+        log->setGeometry(300,40,795,715);
         log->show();
 
-        //this -> close();
+        this -> hide();
     }
 
 
 }
+
+
+
+void Main_b::on_send_clicked()
+{   int cnt = 50 , cnt2 = 50;
+    QString str_mess = ui->typekon->text();
+    //ui->label_2->setText(str_mess);
+    SendRecieveMess send_obj;
+    send_obj.send_user(str_id , str_mess , token);
+    ui->typekon->setText("");
+    //////////////////////
+
+        QWidget *central = new QWidget;
+        QVBoxLayout *layout = new QVBoxLayout(central);
+        ui->scrollArea->setWidget(central);
+        ui->scrollArea->setWidgetResizable(true);
+
+        int i=0;
+        while(i<20){
+            QLabel *label1 = new QLabel("test");
+            QLabel *label2 = new QLabel("0%");
+            label1->setAlignment(Qt::AlignRight);
+            label2->setAlignment(Qt::AlignLeft);
+            layout->addWidget(label1);
+            layout->addWidget(label2);
+            i++;
+        }
+        layout->setStretch(1000,1000);
+
+}
+
