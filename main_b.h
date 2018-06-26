@@ -4,14 +4,17 @@
 #include <QMainWindow>
 #include"loginpage.h"
 #include "ui_loginpage.h"
+
 #include "loginpage.h"
 #include <QApplication>
 #include<QPainter>
 #include<QPixmap>
-#include<QGraphicsView>
-#include<QGraphicsScene>
 #include<QGraphicsPixmapItem>
 #include"register.h"
+#include"sendrecievemess.h"
+#include<QScrollArea>
+#include<QVBoxLayout>
+#include<QHBoxLayout>
 
 namespace Ui {
 class Main_b;
@@ -31,19 +34,24 @@ public:
 
 
 protected:
+    QVector<QLabel*>Labels;
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
+    QNetworkAccessManager *manage;
     QNetworkRequest  req;
     QString token;
     SetQuery * url;
     QNetworkReply * rep;
     QString username;
     QString password;
+    QString str_id;
+    QString sum_str = "";
 private slots:
 
-
+    void on_searchBut_reply(QNetworkReply * repl);
     void on_searchBut_clicked();
     void on_logout_clicked();
+    void on_send_clicked();
 };
 
 #endif // MAIN_B_H
