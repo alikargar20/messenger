@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>990</width>
+    <width>802</width>
     <height>606</height>
    </rect>
   </property>
@@ -23,24 +23,11 @@
       <height>531</height>
      </rect>
     </property>
-    <property name="mouseTracking">
-     <bool>false</bool>
-    </property>
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="whatsThis">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="typekon">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>530</y>
-      <width>661</width>
-      <height>31</height>
-     </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="send">
@@ -123,7 +110,6 @@
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-
       <x>260</x>
       <y>50</y>
       <width>541</width>
@@ -168,28 +154,6 @@
       <height>31</height>
      </rect>
     </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>623</x>
-      <y>79</y>
-      <width>351</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -201,12 +165,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuLOMUN">
-    <property name="title">
-     <string>LOMUN</string>
-    </property>
-   </widget>
-   <addaction name="menuLOMUN"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

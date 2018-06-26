@@ -16,8 +16,6 @@
 #include<QVBoxLayout>
 #include<QHBoxLayout>
 
-
-
 namespace Ui {
 class Main_b;
 }
