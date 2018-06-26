@@ -36,9 +36,6 @@ void Main_b::on_searchBut_clicked()
     req.setUrl(url->setGetUserChatsQuery(str_id));
     manage->get(req);
 
-
-
-
 }
 
 
