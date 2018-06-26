@@ -2,5 +2,6 @@
     <qresource prefix="/model">
         <file>image/5.jpeg</file>
         <file>image/ggg_1.jpeg</file>
+        <file>image/ggg_3.png</file>
     </qresource>
 </RCC>

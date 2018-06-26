@@ -42,7 +42,7 @@ void Main_b::on_searchBut_clicked()
 }
 
 
-void Main_b::on_searchBut_reply(QNetworkReply * repl){
+void Main_b::on_searchBut_reply(QNetworkReply  *repl){
     QString rep_str = repl->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj = jdoc.object();
@@ -73,9 +73,10 @@ void Main_b ::Reply(QNetworkReply * rep){
     if(obj["code"].toString() == "200"){
         LoginPage *log = new LoginPage;
         setCentralWidget(log);
+        log->setGeometry(300,40,795,715);
         log->show();
 
-        //this -> close();
+        this -> hide();
     }
 
 
@@ -92,7 +93,25 @@ void Main_b::on_send_clicked()
     send_obj.send_user(str_id , str_mess , token);
     ui->typekon->setText("");
     //////////////////////
-    ui->textEdit_2->setText(sum_str);
+
+
+        QWidget *central = new QWidget;
+        QVBoxLayout *layout = new QVBoxLayout(central);
+        ui->scrollArea->setWidget(central);
+        ui->scrollArea->setWidgetResizable(true);
+
+        int i=0;
+        while(i<20){
+            QLabel *label1 = new QLabel("test");
+            QLabel *label2 = new QLabel("0%");
+            label1->setAlignment(Qt::AlignRight);
+            label2->setAlignment(Qt::AlignLeft);
+            layout->addWidget(label1);
+            layout->addWidget(label2);
+            i++;
+        }
+        layout->setStretch(1000,1000);
+
 
 }
 

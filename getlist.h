@@ -2,6 +2,8 @@
 #define GETLIST_H
 #include "main_b.h"
 #include "setquery.h"
+#include <QThread>
+
 class GetList : protected Main_b
 {
 private:
@@ -15,6 +17,7 @@ public:
     void getgrouplist();
     void getchannellist();
     void updatelist();
+    void makeThread();
 };
 
 #endif // GETLIST_H
