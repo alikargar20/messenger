@@ -43,10 +43,7 @@ void LoginPage::replyLog(QNetworkReply * reply){
 
 }
 
-QString LoginPage::getToken()
-{
-    return token;
-}
+
 
 QString LoginPage::getUser()
 {

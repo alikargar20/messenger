@@ -32,7 +32,7 @@ public:
     void login();
     ~LoginPage();
     void replyLog(QNetworkReply * reply);
-    QString getToken();
+
     QString getUser();
     QString getPass();
 
