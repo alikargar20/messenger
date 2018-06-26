@@ -11,7 +11,9 @@ LoginPage::LoginPage(QWidget *parent) :
     setGeometry(300,40,795,715);
    // this->setFixedSize(795,715);
     ui->setupUi(this);
+
     this->setStyleSheet("background-image: url(:/model/image/5.jpeg);");
+
     log = new QNetworkAccessManager(this);
     connect(ui -> login , &QPushButton::clicked , this , &LoginPage :: login );
     connect(log,&QNetworkAccessManager::finished,this,&LoginPage::replyLog);
@@ -33,7 +35,7 @@ void LoginPage::replyLog(QNetworkReply * reply){
         Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
         setCentralWidget(w);
-        w->setGeometry(300,0,802,606);
+        //w->setGeometry(300,0,802,606);
         this->hide();
 
 
