@@ -86,7 +86,8 @@ void Main_b ::Reply(QNetworkReply * rep){
 
 void Main_b::on_send_clicked()
 
-{ 
+{
+
     QString str_mess = ui->typekon->text();
     //ui->label_2->setText(str_mess);
     SendRecieveMess send_obj;
