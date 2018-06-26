@@ -76,7 +76,7 @@ void Main_b ::Reply(QNetworkReply * rep){
         log->setGeometry(300,40,795,715);
         log->show();
 
-        this -> hide();
+        //this -> hide();
     }
 
 
@@ -85,7 +85,7 @@ void Main_b ::Reply(QNetworkReply * rep){
 
 
 void Main_b::on_send_clicked()
-{   int cnt = 50 , cnt2 = 50;
+{
     QString str_mess = ui->typekon->text();
     //ui->label_2->setText(str_mess);
     SendRecieveMess send_obj;
