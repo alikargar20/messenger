@@ -34,7 +34,6 @@ public:
 
 
 protected:
-    QVector<QLabel*>Labels;
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
@@ -45,7 +44,9 @@ protected:
     QString username;
     QString password;
     QString str_id;
-    QString sum_str = "";
+//    QVector<QLabel> labs;
+//    QVector<QLabel>::Iterator it;
+
 private slots:
 
     void on_searchBut_reply(QNetworkReply * repl);
