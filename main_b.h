@@ -16,6 +16,7 @@
 #include<QVBoxLayout>
 #include<QHBoxLayout>
 #include <QScrollArea>
+#include<QKeyEvent>
 
 namespace Ui {
 class Main_b;
@@ -47,6 +48,7 @@ protected:
     QString str_id;
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
+    void keyPressEvent(QKeyEvent *event);
 //    QVector<QLabel> labs;
 //    QVector<QLabel>::Iterator it;
 
