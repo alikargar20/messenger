@@ -42,6 +42,12 @@
     <property name="text">
      <string>send</string>
     </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="search">
     <property name="geometry">
