@@ -15,6 +15,7 @@
 #include<QScrollArea>
 #include<QVBoxLayout>
 #include<QHBoxLayout>
+#include <QScrollArea>
 
 namespace Ui {
 class Main_b;
@@ -44,6 +45,8 @@ protected:
     QString username;
     QString password;
     QString str_id;
+    QWidget *central_scroll_area;
+    QVBoxLayout *layout_scroll_area;
 //    QVector<QLabel> labs;
 //    QVector<QLabel>::Iterator it;
 
