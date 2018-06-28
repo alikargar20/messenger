@@ -18,11 +18,14 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::on_searchBut_reply);
 
+
+
     url = new SetQuery;
     url->setToken(token);
 
     central_scroll_area = new QWidget;
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
+    layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
    // layout_scroll_area->setStretch(1000,1000);
 
 }
@@ -82,6 +85,14 @@ void Main_b ::Reply(QNetworkReply * rep){
        //this -> hide();
     }
 
+
+}
+
+void Main_b::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
+        on_send_clicked();
+    }
 
 }
 
