@@ -122,6 +122,13 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>URW Bookman L</family>
+      <pointsize>16</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
     </property>

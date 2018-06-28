@@ -4,6 +4,7 @@
 #include"loginpage.h"
 #include "ui_loginpage.h"
 
+
 Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Main_b)
@@ -19,6 +20,11 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
 
     url = new SetQuery;
     url->setToken(token);
+
+    central_scroll_area = new QWidget;
+    layout_scroll_area = new QVBoxLayout(central_scroll_area);
+   // layout_scroll_area->setStretch(1000,1000);
+
 }
 
 Main_b::~Main_b()
@@ -85,29 +91,17 @@ void Main_b::on_send_clicked()
 
 {
 
-    QString str_mess = ui->typekon->text();
-    //ui->label_2->setText(str_mess);
-    SendRecieveMess send_obj;
-    send_obj.send_user(str_id , str_mess , token);
-    ui->typekon->setText("");
-    //////////////////////
-
-        QWidget *central = new QWidget;
-        QVBoxLayout *layout = new QVBoxLayout(central);
-        ui->scrollArea->setWidget(central);
+        QString str_mess = ui->typekon->text();
+        SendRecieveMess send_obj;
+        send_obj.send_user(str_id , str_mess , token);
+        ui->typekon->setText("");
+        ui->scrollArea->setWidget(central_scroll_area);
         ui->scrollArea->setWidgetResizable(true);
+        QLabel *label1 = new QLabel(str_mess);
+        label1->setFixedHeight(25);
+        label1->setAlignment(Qt::AlignRight);
+        layout_scroll_area->addWidget(label1);
 
-        int i=0;
-        while(i<20){
-            QLabel *label1 = new QLabel("test");
-            QLabel *label2 = new QLabel("0%");
-            label1->setAlignment(Qt::AlignRight);
-            label2->setAlignment(Qt::AlignLeft);
-            layout->addWidget(label1);
-            layout->addWidget(label2);
-            i++;
-        }
-        layout->setStretch(1000,1000);
 
 }
 
