@@ -17,6 +17,7 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::on_searchBut_reply);
 
+
     url = new SetQuery;
     url->setToken(token);
 }
@@ -46,11 +47,22 @@ void Main_b::on_searchBut_reply(QNetworkReply  *repl){
     QString rep_str = repl->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj = jdoc.object();
-   // qDebug()<<jobj["message"].toString();
+    qDebug()<<jobj["message"].toString();
+    qDebug()<<jobj["block 0"].toString();
+    ////////////////////////
+  /*  QByteArray data = repl->readAll();
+    //qDebug() << data;
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(data));
+    QJsonObject jsonReply = jsonDoc.object();
+
+    QJsonObject response = jsonReply["block 1"].toObject();
+    qDebug()<<response["body"].toString();
+    */////////////////////////
     if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
-
+        SendRecieveMess obj_rec;
+        obj_rec.recieve_user(token , str_id);
     }
 
 
@@ -76,7 +88,7 @@ void Main_b ::Reply(QNetworkReply * rep){
         log->setGeometry(300,40,795,715);
         log->show();
 
-        this -> hide();
+        //this -> hide();
     }
 
 
@@ -85,7 +97,7 @@ void Main_b ::Reply(QNetworkReply * rep){
 
 
 void Main_b::on_send_clicked()
-{   int cnt = 50 , cnt2 = 50;
+{
     QString str_mess = ui->typekon->text();
     //ui->label_2->setText(str_mess);
     SendRecieveMess send_obj;
@@ -99,15 +111,15 @@ void Main_b::on_send_clicked()
         ui->scrollArea->setWidgetResizable(true);
 
         int i=0;
-        while(i<20){
-            QLabel *label1 = new QLabel("test");
-            QLabel *label2 = new QLabel("0%");
+
+            QLabel *label1 = new QLabel(str_mess);
+            //QLabel *label2 = new QLabel("0%");
             label1->setAlignment(Qt::AlignRight);
-            label2->setAlignment(Qt::AlignLeft);
+            //label2->setAlignment(Qt::AlignLeft);
             layout->addWidget(label1);
-            layout->addWidget(label2);
+            //layout->addWidget(label2);
             i++;
-        }
+
         layout->setStretch(1000,1000);
 
 }

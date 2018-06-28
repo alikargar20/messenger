@@ -20,7 +20,7 @@ namespace Ui {
 class Main_b;
 }
 
-class Main_b : public QMainWindow
+class Main_b :  public QMainWindow
 {
     Q_OBJECT
 
@@ -46,6 +46,7 @@ protected:
     QString password;
     QString str_id;
     QString sum_str = "";
+
 private slots:
 
     void on_searchBut_reply(QNetworkReply * repl);
