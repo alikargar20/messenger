@@ -4,6 +4,7 @@
 #include"loginpage.h"
 #include "ui_loginpage.h"
 
+
 Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Main_b)
@@ -15,11 +16,18 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
-    connect(manage,&QNetworkAccessManager::finished,this,&Main_b::on_searchBut_reply);
+    connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
+
 
 
     url = new SetQuery;
     url->setToken(token);
+
+    central_scroll_area = new QWidget;
+    layout_scroll_area = new QVBoxLayout(central_scroll_area);
+    layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
+   // layout_scroll_area->setStretch(1000,1000);
+
 }
 
 Main_b::~Main_b()
@@ -37,33 +45,29 @@ void Main_b::on_searchBut_clicked()
     req.setUrl(url->setGetUserChatsQuery(str_id));
     manage->get(req);
 
-
-
-
 }
 
 
-void Main_b::on_searchBut_reply(QNetworkReply  *repl){
+void Main_b::search_reply(QNetworkReply  *repl){
+
     QString rep_str = repl->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj = jdoc.object();
-    qDebug()<<jobj["message"].toString();
-    qDebug()<<jobj["block 0"].toString();
-    ////////////////////////
-  /*  QByteArray data = repl->readAll();
-    //qDebug() << data;
-    QJsonDocument jsonDoc(QJsonDocument::fromJson(data));
-    QJsonObject jsonReply = jsonDoc.object();
-
-    QJsonObject response = jsonReply["block 1"].toObject();
-    qDebug()<<response["body"].toString();
-    */////////////////////////
-    if(jobj["code"].toString() == "200"){
+    QString mess = jobj["message"].toString();
+    QStringList pieces = mess.split( "-" );
+    QString num_messages = pieces.value( pieces.length() - 2 );
+    qDebug()<< num_messages<<endl ;
+     if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
-        SendRecieveMess obj_rec;
-        obj_rec.recieve_user(token , str_id);
     }
+     for(int cnt = 0 ; cnt < num_messages.toInt() ; cnt++ ){
+        QString block_str = "block ";
+        block_str += QString::number(cnt);
+        QJsonObject j = jobj.value(block_str).toObject();
+        qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
+
+     }
 
 
 }
@@ -88,39 +92,32 @@ void Main_b ::Reply(QNetworkReply * rep){
         log->setGeometry(300,40,795,715);
         log->show();
 
-        //this -> hide();
-    }
-
-
 }
 
+}
 
 
 void Main_b::on_send_clicked()
 {
     QString str_mess = ui->typekon->text();
-    //ui->label_2->setText(str_mess);
     SendRecieveMess send_obj;
     send_obj.send_user(str_id , str_mess , token);
     ui->typekon->setText("");
-    //////////////////////
+    ui->scrollArea->setWidget(central_scroll_area);
+    ui->scrollArea->setWidgetResizable(true);
+    QLabel *label1 = new QLabel(str_mess);
+    label1->setFixedHeight(25);
+    label1->setAlignment(Qt::AlignRight);
+    layout_scroll_area->addWidget(label1);
+}
 
-        QWidget *central = new QWidget;
-        QVBoxLayout *layout = new QVBoxLayout(central);
-        ui->scrollArea->setWidget(central);
-        ui->scrollArea->setWidgetResizable(true);
 
-        int i=0;
 
-            QLabel *label1 = new QLabel(str_mess);
-            //QLabel *label2 = new QLabel("0%");
-            label1->setAlignment(Qt::AlignRight);
-            //label2->setAlignment(Qt::AlignLeft);
-            layout->addWidget(label1);
-            //layout->addWidget(label2);
-            i++;
-
-        layout->setStretch(1000,1000);
+void Main_b::keyPressEvent (QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
+        on_send_clicked();
+    }
 
 }
 

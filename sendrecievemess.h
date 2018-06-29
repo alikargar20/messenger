@@ -9,7 +9,7 @@ class SendRecieveMess:public QObject
 {
     Q_OBJECT
     QNetworkRequest req;
-
+    QNetworkReply * r;
 public:
     QNetworkAccessManager *net;
     SendRecieveMess();

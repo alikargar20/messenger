@@ -26,7 +26,6 @@ void SendRecieveMess::recieve_user(QString token , QString dst){
     qDebug()<<"GDSFHSh";
     //connect(net , &QNetworkAccessManager::finished , this , &SendRecieveMess::reply_recieve);
 
-
     }
 
 
@@ -39,7 +38,7 @@ void SendRecieveMess::reply_recieve(QNetworkReply *reply){
        QJsonObject jsonReply = jsonDoc.object();
 
        QJsonObject response = jsonReply["block 0"].toObject();
-       qDebug()<<response["body"].toString();
+       qDebug()<<response["dst"].toString()<<"-->"<<response["body"].toString();
        //QJsonArray  data     = jsonReply["body"].toArray();
        //qDebug() << data;
 

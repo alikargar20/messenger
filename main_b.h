@@ -15,6 +15,8 @@
 #include<QScrollArea>
 #include<QVBoxLayout>
 #include<QHBoxLayout>
+#include <QScrollArea>
+#include<QKeyEvent>
 
 namespace Ui {
 class Main_b;
@@ -34,10 +36,10 @@ public:
 
 
 protected:
-    QVector<QLabel*>Labels;
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
+    QNetworkAccessManager *n;
     QNetworkRequest  req;
     QString token;
     SetQuery * url;
@@ -46,10 +48,14 @@ protected:
     QString password;
     QString str_id;
     QString sum_str = "";
+    QWidget *central_scroll_area;
+    QVBoxLayout *layout_scroll_area;
+    void keyPressEvent(QKeyEvent *event);
+    void search_reply(QNetworkReply * repl);
 
 private slots:
 
-    void on_searchBut_reply(QNetworkReply * repl);
+
     void on_searchBut_clicked();
     void on_logout_clicked();
     void on_send_clicked();
