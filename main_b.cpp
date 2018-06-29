@@ -16,7 +16,7 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
-    connect(manage,&QNetworkAccessManager::finished,this,&Main_b::on_searchBut_reply);
+    connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
 
 
 
@@ -48,16 +48,26 @@ void Main_b::on_searchBut_clicked()
 }
 
 
-void Main_b::on_searchBut_reply(QNetworkReply  *repl){
+void Main_b::search_reply(QNetworkReply  *repl){
+
     QString rep_str = repl->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject jobj = jdoc.object();
-   // qDebug()<<jobj["message"].toString();
-    if(jobj["code"].toString() == "200"){
+    QString mess = jobj["message"].toString();
+    QStringList pieces = mess.split( "-" );
+    QString num_messages = pieces.value( pieces.length() - 2 );
+    qDebug()<< num_messages<<endl ;
+     if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
-
     }
+     for(int cnt = 0 ; cnt < num_messages.toInt() ; cnt++ ){
+        QString block_str = "block ";
+        block_str += QString::number(cnt);
+        QJsonObject j = jobj.value(block_str).toObject();
+        qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
+
+     }
 
 
 }
@@ -82,37 +92,32 @@ void Main_b ::Reply(QNetworkReply * rep){
         log->setGeometry(300,40,795,715);
         log->show();
 
-       //this -> hide();
-    }
-
+}
 
 }
 
-void Main_b::keyPressEvent(QKeyEvent *event)
+
+void Main_b::on_send_clicked()
+{
+    QString str_mess = ui->typekon->text();
+    SendRecieveMess send_obj;
+    send_obj.send_user(str_id , str_mess , token);
+    ui->typekon->setText("");
+    ui->scrollArea->setWidget(central_scroll_area);
+    ui->scrollArea->setWidgetResizable(true);
+    QLabel *label1 = new QLabel(str_mess);
+    label1->setFixedHeight(25);
+    label1->setAlignment(Qt::AlignRight);
+    layout_scroll_area->addWidget(label1);
+}
+
+
+
+void Main_b::keyPressEvent (QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
         on_send_clicked();
     }
-
-}
-
-
-
-void Main_b::on_send_clicked()
-
-{
-
-        QString str_mess = ui->typekon->text();
-        SendRecieveMess send_obj;
-        send_obj.send_user(str_id , str_mess , token);
-        ui->typekon->setText("");
-        ui->scrollArea->setWidget(central_scroll_area);
-        ui->scrollArea->setWidgetResizable(true);
-        QLabel *label1 = new QLabel(str_mess);
-        label1->setFixedHeight(25);
-        label1->setAlignment(Qt::AlignRight);
-        layout_scroll_area->addWidget(label1);
-
 
 }
 
