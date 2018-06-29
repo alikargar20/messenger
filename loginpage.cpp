@@ -21,6 +21,7 @@ LoginPage::LoginPage(QWidget *parent) :
 }
 
 void LoginPage::replyLog(QNetworkReply * reply){
+
     ui->progressBar->setValue(70);
     ui->progressBar->setValue(100);
     QString rep_str = reply->readAll();
@@ -29,11 +30,12 @@ void LoginPage::replyLog(QNetworkReply * reply){
     token=rep_obj["token"].toString();
 
     ui->textEdit->setText(rep_obj["message"].toString());
+    //qDebug()<<rep_obj["code"].toString();
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
         setCentralWidget(w);
-        w->setGeometry(300,0,802,606);
+        //w->setGeometry(300,0,802,606);
         this->hide();
 
 
