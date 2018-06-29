@@ -24,12 +24,17 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     url->setToken(token);
 
     central_scroll_area = new QWidget;
+    ui->scrollArea->setWidget(central_scroll_area);
+    ui->scrollArea->setWidgetResizable(true);
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
+
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
     layout_scroll_area->setStretch(0,20);
     scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
     scrollbar_in_scrollarea=ui->scrollArea->verticalScrollBar();
     scrollbar_in_scrollarea->setSliderDown(true);
+
+
 
 }
 
@@ -59,7 +64,7 @@ void Main_b::search_reply(QNetworkReply  *repl){
     QString mess = jobj["message"].toString();
     QStringList pieces = mess.split( "-" );
     QString num_messages = pieces.value( pieces.length() - 2 );
-    qDebug()<< num_messages<<endl ;
+   // qDebug()<< num_messages<<endl ;
      if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
@@ -68,7 +73,18 @@ void Main_b::search_reply(QNetworkReply  *repl){
         QString block_str = "block ";
         block_str += QString::number(cnt);
         QJsonObject j = jobj.value(block_str).toObject();
-        qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
+        if(j.value("body").toString() != ""){
+        QLabel *label2 = new QLabel(j.value("body").toString());
+        label2->setFixedHeight(25);
+        if(j.value("src") == username)
+            label2->setAlignment(Qt::AlignRight);
+        else
+            label2->setAlignment(Qt::AlignLeft);
+        layout_scroll_area->addWidget(label2);
+        scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+        }
+
+        //qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
 
      }
 
@@ -108,15 +124,15 @@ void Main_b::on_send_clicked()
 {
     QString str_mess = ui->typekon->text();
     SendRecieveMess send_obj;
+    if(str_mess != ""){
     send_obj.send_user(str_id , str_mess , token);
     ui->typekon->setText("");
-    ui->scrollArea->setWidget(central_scroll_area);
-    ui->scrollArea->setWidgetResizable(true);
     QLabel *label1 = new QLabel(str_mess);
     label1->setFixedHeight(25);
     label1->setAlignment(Qt::AlignRight);
     layout_scroll_area->addWidget(label1);
     scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+    }
 }
 
 

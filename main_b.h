@@ -52,6 +52,7 @@ protected:
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
     void keyPressEvent(QKeyEvent *event);
+
     void search_reply(QNetworkReply * repl);
 
 private slots:
