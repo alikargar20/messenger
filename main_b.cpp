@@ -96,14 +96,10 @@ void Main_b ::Reply(QNetworkReply * rep){
         log->setGeometry(300,40,795,715);
         log->show();
 
-<<<<<<< HEAD
-        //this -> hide();
+
     }
 
 
-=======
->>>>>>> 482e9b498cf32e84be305d754371c8d8b37e3235
-}
 
 }
 
@@ -120,31 +116,16 @@ void Main_b::on_send_clicked()
     label1->setFixedHeight(25);
     label1->setAlignment(Qt::AlignRight);
     layout_scroll_area->addWidget(label1);
+    scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
 }
 
 
-<<<<<<< HEAD
 
-        QString str_mess = ui->typekon->text();
-        SendRecieveMess send_obj;
-        send_obj.send_user(str_id , str_mess , token);
-        ui->typekon->setText("");
-        ui->scrollArea->setWidget(central_scroll_area);
-        ui->scrollArea->setWidgetResizable(true);
-        QLabel *label1 = new QLabel(str_mess);
-        label1->setFixedHeight(25);
-        label1->setAlignment(Qt::AlignRight);
-        layout_scroll_area->addWidget(label1);
-=======
->>>>>>> 482e9b498cf32e84be305d754371c8d8b37e3235
 
 void Main_b::keyPressEvent (QKeyEvent *event)
 {
     if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
         on_send_clicked();
     }
-
-        scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
-
 }
 
