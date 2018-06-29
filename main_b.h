@@ -22,7 +22,7 @@ namespace Ui {
 class Main_b;
 }
 
-class Main_b : public QMainWindow
+class Main_b :  public QMainWindow
 {
     Q_OBJECT
 
@@ -39,6 +39,7 @@ protected:
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
+    QNetworkAccessManager *n;
     QNetworkRequest  req;
     QString token;
     SetQuery * url;
@@ -46,15 +47,15 @@ protected:
     QString username;
     QString password;
     QString str_id;
+    QString sum_str = "";
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
     void keyPressEvent(QKeyEvent *event);
-//    QVector<QLabel> labs;
-//    QVector<QLabel>::Iterator it;
+    void search_reply(QNetworkReply * repl);
 
 private slots:
 
-    void on_searchBut_reply(QNetworkReply * repl);
+
     void on_searchBut_clicked();
     void on_logout_clicked();
     void on_send_clicked();

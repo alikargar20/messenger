@@ -4,15 +4,18 @@
 #include"main_b.h"
 #include"setquery.h"
 #include<QNetworkRequest>
-class SendRecieveMess
+#include<QTimer>
+class SendRecieveMess:public QObject
 {
-
+    Q_OBJECT
     QNetworkRequest req;
-    QNetworkAccessManager *net;
+    QNetworkReply * r;
 public:
+    QNetworkAccessManager *net;
     SendRecieveMess();
     void send_user(QString dst_id , QString mess , QString token);
-    void recieve();
+    void recieve_user(QString token , QString dst);
+    void reply_recieve(QNetworkReply*);
 };
 
 #endif // SENDRECIEVEMESS_H
