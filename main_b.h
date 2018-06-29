@@ -14,9 +14,9 @@
 #include"sendrecievemess.h"
 #include<QScrollArea>
 #include<QVBoxLayout>
-#include<QHBoxLayout>
-#include <QScrollArea>
+#include<QScrollBar>
 #include<QKeyEvent>
+
 
 namespace Ui {
 class Main_b;
@@ -30,7 +30,7 @@ public:
     explicit Main_b( QString token , QString user , QString pass , QWidget *parent = 0);
     ~Main_b();
     void Reply(QNetworkReply * rep);
-    friend class GetList;
+    //friend class GetList;
 
 
 
@@ -50,7 +50,9 @@ protected:
     QString sum_str = "";
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
+    QScrollBar *scrollbar_in_scrollarea;
     void keyPressEvent(QKeyEvent *event);
+
     void search_reply(QNetworkReply * repl);
 
 private slots:

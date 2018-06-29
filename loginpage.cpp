@@ -35,8 +35,10 @@ void LoginPage::replyLog(QNetworkReply * reply){
         Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
         setCentralWidget(w);
-        //w->setGeometry(300,0,802,606);
+        w->setGeometry(300,0,802,606);
         this->hide();
+
+
 
 
     }
