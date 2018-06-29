@@ -37,6 +37,8 @@ void LoginPage::replyLog(QNetworkReply * reply){
         this->hide();
 
 
+
+
     }
 
 

@@ -26,7 +26,10 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     central_scroll_area = new QWidget;
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
-   // layout_scroll_area->setStretch(1000,1000);
+    layout_scroll_area->setStretch(0,20);
+    scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
+    scrollbar_in_scrollarea=ui->scrollArea->verticalScrollBar();
+    scrollbar_in_scrollarea->setSliderDown(true);
 
 }
 
@@ -77,12 +80,13 @@ void Main_b ::Reply(QNetworkReply * rep){
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
     if(obj["code"].toString() == "200"){
+
         LoginPage *log = new LoginPage;
         setCentralWidget(log);
         log->setGeometry(300,40,795,715);
         log->show();
 
-       //this -> hide();
+        //this -> hide();
     }
 
 
@@ -102,6 +106,7 @@ void Main_b::on_send_clicked()
 
 {
 
+
         QString str_mess = ui->typekon->text();
         SendRecieveMess send_obj;
         send_obj.send_user(str_id , str_mess , token);
@@ -113,6 +118,8 @@ void Main_b::on_send_clicked()
         label1->setAlignment(Qt::AlignRight);
         layout_scroll_area->addWidget(label1);
 
+
+        scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
 
 }
 
