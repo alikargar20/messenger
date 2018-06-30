@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include"loginpage.h"
 #include "ui_loginpage.h"
-
+#include "thread.h"
 #include "loginpage.h"
 #include <QApplication>
 #include<QPainter>
@@ -16,7 +16,7 @@
 #include<QVBoxLayout>
 #include<QScrollBar>
 #include<QKeyEvent>
-
+#include<QThread>
 
 namespace Ui {
 class Main_b;
@@ -31,8 +31,8 @@ public:
     ~Main_b();
     void Reply(QNetworkReply * rep);
     //friend class GetList;
-
-
+    Thread *mThread;
+    Thread *hThread;
 
 
 protected:
@@ -51,10 +51,14 @@ protected:
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
+    QThread thread;
+    QThread thread2;
     void keyPressEvent(QKeyEvent *event);
 
-    void search_reply(QNetworkReply * repl);
 
+public slots:
+    void search_reply(QNetworkReply *repl);
+    void thread_rec();
 private slots:
 
 

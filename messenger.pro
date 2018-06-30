@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     loginpage.cpp \
     getlist.cpp \
     setquery.cpp \
-    sendrecievemess.cpp
+    sendrecievemess.cpp \
+    thread.cpp
 
 HEADERS  += \
     register.h \
@@ -26,7 +27,8 @@ HEADERS  += \
     loginpage.h \
     getlist.h \
     setquery.h \
-    sendrecievemess.h
+    sendrecievemess.h \
+    thread.h
 
 FORMS    += \
     register.ui \
