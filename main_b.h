@@ -17,7 +17,8 @@
 #include<QScrollBar>
 #include<QKeyEvent>
 #include<QThread>
-
+#include<QMessageBox>
+#include"creation.h"
 namespace Ui {
 class Main_b;
 }
@@ -33,12 +34,14 @@ public:
     //friend class GetList;
     Thread *mThread;
     Thread *hThread;
-
+    QNetworkAccessManager *channel_create_net;
+    QNetworkAccessManager *group_create_net;
 
 protected:
     Ui::Main_b *ui;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
+
     QNetworkAccessManager *n;
     QNetworkRequest  req;
     QString token;
@@ -54,8 +57,8 @@ protected:
     QThread thread;
     QThread thread2;
     void keyPressEvent(QKeyEvent *event);
-
-
+    void set_mess_groupCre(QNetworkReply * r);
+    void set_mess_channelCre(QNetworkReply * r);
 public slots:
     void search_reply(QNetworkReply *repl);
     void thread_rec();
@@ -63,8 +66,8 @@ private slots:
 
 
     void on_searchBut_clicked();
-    void on_logout_clicked();
     void on_send_clicked();
+    void on_pushButton_clicked();
 };
 
 #endif // MAIN_B_H
