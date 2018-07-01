@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/model">
-        <file>image/5.jpeg</file>
         <file>image/ggg_1.jpeg</file>
         <file>image/ggg_3.png</file>
+        <file>image/label1.png</file>
+        <file>image/label2.png</file>
+        <file>image/5.jpg</file>
     </qresource>
 </RCC>
