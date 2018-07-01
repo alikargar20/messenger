@@ -3,22 +3,31 @@
 #include "ui_main_b.h"
 #include"loginpage.h"
 #include "ui_loginpage.h"
-
+#include"thread.h"
 
 Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Main_b)
 {
+
     this->token=token;
     this->username = user;
     this->password = pass;
     ui->setupUi(this);
+    mThread = new Thread(this);
+    hThread = new Thread(this);
+    list_thread=new GetList(token,this);
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
+    connect(mThread, SIGNAL(thread_rec()),
+                this, SLOT(thread_rec()));
+    //connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),
+               // this, SLOT(search_reply(QNetworkReply  *repl)));
+    connect(list_thread,SIGNAL(get_finished(QString)),this,SLOT(showlist(QString)));
 
-
+   // list_thread->start();
 
     url = new SetQuery;
     url->setToken(token);
@@ -29,7 +38,7 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     ui->scrollArea->setWidget(central_scroll_area);
     ui->scrollArea->setWidgetResizable(true);
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
-
+    ui->listWidget->setStyleSheet("background-image: url(:/model/image/label2.jpg);");
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
     //layout_scroll_area->setStretch(0,20);
     scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
@@ -39,13 +48,28 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
 
 
 
+    //list_thread->wait();
+
+    //qDebug()<<list_string->get_users();
+
+    /*QStringList::Iterator it;
+        for (it = list_string->get_users().begin(); it != list_string->get_users().end();
+             it++){
+            qDebug() << list_string->get_users().pop_back();<< endl;
+            qDebug()<<"ssa";
+        }*/
+
+
+
 }
 
 Main_b::~Main_b()
 {
+    mThread->Stop = true;
+    hThread->Stop = true;
+    delete list_thread;
     delete ui;
 }
-
 
 
 
@@ -55,6 +79,15 @@ void Main_b::on_searchBut_clicked()
     str_id = ui->search->text();
     req.setUrl(url->setGetUserChatsQuery(str_id));
     manage->get(req);
+    mThread->start();
+    hThread->start();
+}
+
+void Main_b::thread_rec(){
+
+    req.setUrl(url->setGetUserChatsQuery(str_id));
+    manage->get(req);
+
 
 }
 
@@ -97,9 +130,15 @@ void Main_b::search_reply(QNetworkReply  *repl){
         scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
         }
 
-        //qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
+        qDebug()<<"SADG";
+
+
+
 
      }
+     qDebug()<<"SADGdsfh";
+     //starting threads
+
 
 
 }
@@ -114,7 +153,7 @@ void Main_b::on_logout_clicked()
 
 
 void Main_b ::Reply(QNetworkReply * rep){
-
+    delete list_thread;
     QString str = rep ->readAll();
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
@@ -170,5 +209,13 @@ void Main_b::keyPressEvent (QKeyEvent *event)
     if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
         on_send_clicked();
     }
+}
+
+void Main_b::showlist(QString str)
+{
+
+    ui->listWidget->addItem(str);
+    //ui->listWidget->addItems(list_thread->get_groups());
+    //ui->listWidget->addItems(list_thread->get_channnels());
 }
 

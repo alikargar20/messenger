@@ -4,8 +4,7 @@
 #include <QMainWindow>
 #include"loginpage.h"
 #include "ui_loginpage.h"
-
-#include "loginpage.h"
+#include "thread.h"
 #include <QApplication>
 #include<QPainter>
 #include<QPixmap>
@@ -17,7 +16,8 @@
 #include<QScrollBar>
 #include<QKeyEvent>
 #include <QCloseEvent>
-
+#include<QThread>
+#include "getlist.h"
 
 
 namespace Ui {
@@ -34,12 +34,16 @@ public:
     void Reply(QNetworkReply * rep);
     //friend class GetList;
     void closeEvent(QCloseEvent * e);
-
+    void keyPressEvent(QKeyEvent *event);
+    Thread *mThread;
+    Thread *hThread;
+    GetList *list_thread;
 
 
 
 protected:
     Ui::Main_b *ui;
+
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
     QNetworkAccessManager *n;
@@ -53,10 +57,16 @@ protected:
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
-    void keyPressEvent(QKeyEvent *event);
+    QStringList list;
+    QThread thread;
+    QThread thread2;
 
-    void search_reply(QNetworkReply * repl);
 
+
+public slots:
+    void search_reply(QNetworkReply *repl);
+    void thread_rec();
+    void showlist(QString str);
 private slots:
 
 

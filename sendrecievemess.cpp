@@ -23,7 +23,7 @@ void SendRecieveMess::recieve_user(QString token , QString dst){
     url->setToken(token);
     req.setUrl(url->setGetUserChatsQuery(dst));
     net->get(req);
-    qDebug()<<"GDSFHSh";
+    //qDebug()<<"GDSFHSh";
     //connect(net , &QNetworkAccessManager::finished , this , &SendRecieveMess::reply_recieve);
 
     }
