@@ -3,7 +3,7 @@
 #include "ui_main_b.h"
 #include"loginpage.h"
 #include "ui_loginpage.h"
-
+#include"thread.h"
 
 Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     QMainWindow(parent),
@@ -13,12 +13,16 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     this->username = user;
     this->password = pass;
     ui->setupUi(this);
+    mThread = new Thread(this);
+    hThread = new Thread(this);
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
-
-
+    connect(mThread, SIGNAL(thread_rec()),
+                this, SLOT(thread_rec()));
+    connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),
+                this, SLOT(search_reply(QNetworkReply  *repl)));
 
     url = new SetQuery;
     url->setToken(token);
@@ -40,9 +44,10 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
 
 Main_b::~Main_b()
 {
+    mThread->Stop = true;
+    hThread->Stop = true;
     delete ui;
 }
-
 
 
 
@@ -52,6 +57,15 @@ void Main_b::on_searchBut_clicked()
     str_id = ui->search->text();
     req.setUrl(url->setGetUserChatsQuery(str_id));
     manage->get(req);
+    mThread->start();
+    hThread->start();
+}
+
+void Main_b::thread_rec(){
+
+    req.setUrl(url->setGetUserChatsQuery(str_id));
+    manage->get(req);
+
 
 }
 
@@ -64,7 +78,7 @@ void Main_b::search_reply(QNetworkReply  *repl){
     QString mess = jobj["message"].toString();
     QStringList pieces = mess.split( "-" );
     QString num_messages = pieces.value( pieces.length() - 2 );
-   // qDebug()<< num_messages<<endl ;
+    qDebug()<< num_messages<<endl ;
      if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
@@ -84,9 +98,15 @@ void Main_b::search_reply(QNetworkReply  *repl){
         scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
         }
 
-        //qDebug()<<j.value("src").toString()<<"-->" <<j.value("dst").toString()<< "::" <<j.value("body").toString();
+        qDebug()<<"SADG";
+
+
+
 
      }
+     qDebug()<<"SADGdsfh";
+     //starting threads
+
 
 
 }
