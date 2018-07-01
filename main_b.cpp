@@ -17,13 +17,14 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     hThread = new Thread(this);
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
+    channel_create_net = new QNetworkAccessManager(this);
+    group_create_net = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
-    connect(mThread, SIGNAL(thread_rec()),
-                this, SLOT(thread_rec()));
-    connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),
-                this, SLOT(search_reply(QNetworkReply  *repl)));
-
+    connect(mThread, SIGNAL(thread_rec()),this, SLOT(thread_rec()));
+    connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),this, SLOT(search_reply(QNetworkReply  *repl)));
+    connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
+    connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
     url = new SetQuery;
     url->setToken(token);
 
@@ -31,7 +32,9 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     ui->scrollArea->setWidget(central_scroll_area);
     ui->scrollArea->setWidgetResizable(true);
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
-
+    ui->comboBox->addItem("Create Channel");
+    ui->comboBox->addItem("Create Group");
+    ui->comboBox->addItem("Log Out");
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
     layout_scroll_area->setStretch(0,20);
     scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
@@ -49,6 +52,22 @@ Main_b::~Main_b()
     delete ui;
 }
 
+
+void Main_b::set_mess_groupCre(QNetworkReply * r){
+    QString rep_str = r->readAll();
+    QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
+    QJsonObject jobj = jdoc.object();
+    ui->createlabel->setText(jobj["message"].toString());
+
+}
+
+void Main_b::set_mess_channelCre(QNetworkReply * r){
+    QString rep_str = r->readAll();
+    QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
+    QJsonObject jobj = jdoc.object();
+    ui->createlabel->setText(jobj["message"].toString());
+
+}
 
 
 
@@ -78,7 +97,7 @@ void Main_b::search_reply(QNetworkReply  *repl){
     QString mess = jobj["message"].toString();
     QStringList pieces = mess.split( "-" );
     QString num_messages = pieces.value( pieces.length() - 2 );
-    qDebug()<< num_messages<<endl ;
+    //qDebug()<< num_messages<<endl ;
      if(jobj["code"].toString() == "200"){
         ui->search->setText("");
         ui->label->setText(str_id);
@@ -98,26 +117,16 @@ void Main_b::search_reply(QNetworkReply  *repl){
         scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
         }
 
-        qDebug()<<"SADG";
 
 
 
 
      }
-     qDebug()<<"SADGdsfh";
-     //starting threads
 
 
 
 }
 
-void Main_b::on_logout_clicked()
-{
-    req.setUrl( url -> setLogOutQuery(username ,password));
-    manager ->get(req);
-
-
-}
 
 
 void Main_b ::Reply(QNetworkReply * rep){
@@ -165,3 +174,29 @@ void Main_b::keyPressEvent (QKeyEvent *event)
     }
 }
 
+
+void Main_b::on_pushButton_clicked()
+{
+    QString str_combo = ui->comboBox->currentText();
+    if(str_combo == "Log Out"){
+        req.setUrl( url -> setLogOutQuery(username ,password));
+        manager ->get(req);
+
+    }
+
+    else if(str_combo == "Create Group"){
+
+        QString group_name = ui->creation_name->text();
+        creation group_cre;
+        group_cre.create_group(token , group_name , group_create_net);
+
+
+    }
+
+    else if(str_combo == "Create Channel"){
+
+        QString channel_name = ui->creation_name->text();
+        creation channel_cre;
+        channel_cre.create_channel(token , channel_name , channel_create_net);
+    }
+}

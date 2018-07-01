@@ -14,8 +14,8 @@ public:
     QNetworkAccessManager *net;
     SendRecieveMess();
     void send_user(QString dst_id , QString mess , QString token);
-    void recieve_user(QString token , QString dst);
-    void reply_recieve(QNetworkReply*);
-};
+    void send_group(QString grp_id , QString mess , QString token);
+    void send_channel(QString chn_id , QString mess , QString token);
+   };
 
 #endif // SENDRECIEVEMESS_H
