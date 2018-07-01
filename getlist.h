@@ -35,9 +35,6 @@ public:
     void getuserlist_reply(QNetworkReply *repl);
     void getgrouplist_reply(QNetworkReply *repl);
     void getchannellist_reply(QNetworkReply *repl);
-    QStringList get_users();
-    QStringList get_groups();
-    QStringList get_channnels();
     bool is_not_repetetive(QStringList list,QString str);
 
 signals:

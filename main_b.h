@@ -17,11 +17,7 @@
 #include<QKeyEvent>
 #include <QCloseEvent>
 #include<QThread>
-#include<QMessageBox>
-#include"creation.h"
-
 #include "getlist.h"
-
 
 
 namespace Ui {
@@ -41,8 +37,6 @@ public:
     void keyPressEvent(QKeyEvent *event);
     Thread *mThread;
     Thread *hThread;
-    QNetworkAccessManager *channel_create_net;
-    QNetworkAccessManager *group_create_net;
     GetList *list_thread;
 
 
@@ -52,7 +46,6 @@ protected:
 
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
-
     QNetworkAccessManager *n;
     QNetworkRequest  req;
     QString token;
@@ -67,9 +60,6 @@ protected:
     QStringList list;
     QThread thread;
     QThread thread2;
-    void keyPressEvent(QKeyEvent *event);
-    void set_mess_groupCre(QNetworkReply * r);
-    void set_mess_channelCre(QNetworkReply * r);
 
 
 
@@ -81,8 +71,8 @@ private slots:
 
 
     void on_searchBut_clicked();
+    void on_logout_clicked();
     void on_send_clicked();
-    void on_pushButton_clicked();
 };
 
 #endif // MAIN_B_H
