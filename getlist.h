@@ -4,12 +4,18 @@
 #include "setquery.h"
 #include <QThread>
 
-class GetList : protected Main_b
+class GetList:public QObject
 {
 private:
-    QNetworkReply *reply;
+    Q_OBJECT
     SetQuery *url;
-
+    QNetworkRequest  req;
+    QNetworkAccessManager *manager_user;
+    QNetworkAccessManager *manager_group;
+    QNetworkAccessManager *manager_channel;
+    QStringList users;
+    QStringList groups;
+    QStringList channels;
 
 public:
     GetList(QString token);
@@ -17,7 +23,9 @@ public:
     void getgrouplist();
     void getchannellist();
     void updatelist();
-    void makeThread();
+    void getuserlist_reply(QNetworkReply *repl);
+    void getgrouplist_reply(QNetworkReply *repl);
+    void getchannellist_reply(QNetworkReply *repl);
 };
 
 #endif // GETLIST_H

@@ -16,6 +16,8 @@
 #include<QVBoxLayout>
 #include<QScrollBar>
 #include<QKeyEvent>
+#include <QCloseEvent>
+
 
 
 namespace Ui {
@@ -31,6 +33,7 @@ public:
     ~Main_b();
     void Reply(QNetworkReply * rep);
     //friend class GetList;
+    void closeEvent(QCloseEvent * e);
 
 
 
@@ -43,7 +46,6 @@ protected:
     QNetworkRequest  req;
     QString token;
     SetQuery * url;
-    QNetworkReply * rep;
     QString username;
     QString password;
     QString str_id;
