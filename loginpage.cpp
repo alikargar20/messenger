@@ -28,8 +28,18 @@ void LoginPage::replyLog(QNetworkReply * reply){
     QJsonDocument jdoc=QJsonDocument::fromJson(rep_str.toUtf8());
     QJsonObject rep_obj=jdoc.object();
     token=rep_obj["token"].toString();
-
     ui->textEdit->setText(rep_obj["message"].toString());
+    //save user & pass to login
+    QString filename="/home/siavash/git messanger/messenger_L/save.txt";
+    QFile file( filename );
+    if ( file.open(QIODevice::ReadWrite) )
+    {
+        QTextStream stream( &file );
+        stream << user << endl;
+        stream << pass << endl;
+        stream << token << endl;
+    }
+    ////////////
     //qDebug()<<rep_obj["code"].toString();
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token , user , pass ,this);

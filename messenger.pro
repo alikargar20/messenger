@@ -41,3 +41,6 @@ DISTFILES +=
 
 RESOURCES += \
     resource.qrc
+
+OTHER_FILES += \
+    save.txt

@@ -181,9 +181,19 @@ void Main_b::on_pushButton_clicked()
     if(str_combo == "Log Out"){
         req.setUrl( url -> setLogOutQuery(username ,password));
         manager ->get(req);
+        QString filename="/home/siavash/git messanger/messenger_L/save.txt";
+        QFile file( filename );
+        if ( file.open(QIODevice::WriteOnly) )
+        {
+            QTextStream stream( &file );
+
+            stream << "00"<< endl ;
+           // stream << "00"<< endl ;
+           // stream << "00"<< endlf ;
 
     }
-
+        file.close();
+}
     else if(str_combo == "Create Group"){
 
         QString group_name = ui->creation_name->text();
@@ -200,3 +210,4 @@ void Main_b::on_pushButton_clicked()
         channel_cre.create_channel(token , channel_name , channel_create_net);
     }
 }
+
