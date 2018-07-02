@@ -43,4 +43,5 @@ RESOURCES += \
     resource.qrc
 
 OTHER_FILES += \
-    save.txt
+    save.txt \
+    ../../Desktop/13.jpeg

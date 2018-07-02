@@ -9,7 +9,7 @@ Thread::Thread(QObject *parent, bool b) :
 // run() will be called when a thread starts
 void Thread::run()
 {
-    for(int i = 0; i <= 100; i++)
+    while(true)
     {
         QMutex mutex;
         // prevent other threads from changing the "Stop" value
@@ -18,7 +18,7 @@ void Thread::run()
         mutex.unlock();
 
         // emit the signal for the count label
-        emit search_reply(repl);
+       // emit search_reply(repl);
         emit thread_rec();
 
         // slowdown the count change, msec

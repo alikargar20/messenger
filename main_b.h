@@ -17,11 +17,9 @@
 #include<QKeyEvent>
 #include <QCloseEvent>
 #include<QThread>
+#include "getlist.h"
 #include<QMessageBox>
 #include"creation.h"
-
-#include "getlist.h"
-
 
 
 namespace Ui {
@@ -41,20 +39,25 @@ public:
     void keyPressEvent(QKeyEvent *event);
     Thread *mThread;
     Thread *hThread;
+    GetList *list_thread;
+    void reply_item_clicked(QListWidgetItem *item);
+    void remove_item_in_layout(QLayout *lay);
     QNetworkAccessManager *channel_create_net;
     QNetworkAccessManager *group_create_net;
-    GetList *list_thread;
+    void set_mess_groupCre(QNetworkReply * r);
+    void set_mess_channelCre(QNetworkReply * r);
+    void reply_join(QNetworkReply * r);
 
-
-
-protected:
+private:
     Ui::Main_b *ui;
-
+    QString last_date;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
-
     QNetworkAccessManager *n;
+    QNetworkAccessManager *cha_join;
+    QNetworkAccessManager *gp_join;
     QNetworkRequest  req;
+    QNetworkRequest request;
     QString token;
     SetQuery * url;
     QString username;
@@ -65,11 +68,8 @@ protected:
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
     QStringList list;
-    QThread thread;
-    QThread thread2;
+
     //void keyPressEvent(QKeyEvent *event);
-    void set_mess_groupCre(QNetworkReply * r);
-    void set_mess_channelCre(QNetworkReply * r);
 
 
 
@@ -77,12 +77,12 @@ public slots:
     void search_reply(QNetworkReply *repl);
     void thread_rec();
     void showlist(QString str);
+
 private slots:
 
-
+    void on_pushButton_clicked();
     void on_searchBut_clicked();
     void on_send_clicked();
-    void on_pushButton_clicked();
 };
 
 #endif // MAIN_B_H
