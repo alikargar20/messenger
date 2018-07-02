@@ -23,7 +23,6 @@ void Thread::setLastDate(QString date)
 
 void Thread::receive_thread()
 {
-
     if(id != ""){
     req.setUrl(url->setGetUserChatsQuery(id,last_date));
     manager->get(req);

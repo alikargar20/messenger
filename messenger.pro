@@ -41,3 +41,7 @@ DISTFILES +=
 
 RESOURCES += \
     resource.qrc
+
+OTHER_FILES += \
+    save.txt \
+    ../../Desktop/13.jpeg

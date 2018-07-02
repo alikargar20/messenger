@@ -46,7 +46,7 @@ public:
     QNetworkAccessManager *group_create_net;
     void set_mess_groupCre(QNetworkReply * r);
     void set_mess_channelCre(QNetworkReply * r);
-
+    void reply_join(QNetworkReply * r);
 
 private:
     Ui::Main_b *ui;
@@ -54,7 +54,10 @@ private:
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
     QNetworkAccessManager *n;
+    QNetworkAccessManager *cha_join;
+    QNetworkAccessManager *gp_join;
     QNetworkRequest  req;
+    QNetworkRequest request;
     QString token;
     SetQuery * url;
     QString username;
@@ -66,6 +69,7 @@ private:
     QScrollBar *scrollbar_in_scrollarea;
     QStringList list;
 
+    //void keyPressEvent(QKeyEvent *event);
 
 
 
@@ -79,7 +83,6 @@ private slots:
 
     void on_pushButton_clicked();
     void on_searchBut_clicked();
-    void on_logout_clicked();
     void on_send_clicked();
 
 
