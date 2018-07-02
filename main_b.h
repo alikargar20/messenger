@@ -71,8 +71,9 @@ private:
 
 public slots:
     void search_reply(QNetworkReply *repl);
-    void thread_rec();
     void showlist(QString str);
+    void id_set(QString s);
+    void makeLabel(QString txt, QString src);
 
 private slots:
 
@@ -80,6 +81,10 @@ private slots:
     void on_searchBut_clicked();
     void on_logout_clicked();
     void on_send_clicked();
+
+
+signals:
+    void textLabelChanged(QString );
 };
 
 #endif // MAIN_B_H
