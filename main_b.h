@@ -38,12 +38,13 @@ public:
     Thread *mThread;
     Thread *hThread;
     GetList *list_thread;
+    void reply_item_clicked(QListWidgetItem *item);
+    void remove_item_in_layout(QLayout *lay);
 
 
-
-protected:
+private:
     Ui::Main_b *ui;
-
+    QString last_date;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
     QNetworkAccessManager *n;

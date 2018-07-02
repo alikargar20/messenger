@@ -24,21 +24,19 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(mThread, SIGNAL(thread_rec()),
                 this, SLOT(thread_rec()));
     connect(list_thread,SIGNAL(get_finished(QString)),this,SLOT(showlist(QString)));
-
+    connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
 
 
     url = new SetQuery;
     url->setToken(token);
 
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
     central_scroll_area = new QWidget;
     ui->scrollArea->setWidget(central_scroll_area);
     ui->scrollArea->setWidgetResizable(true);
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
     ui->listWidget->setStyleSheet("background-image: url(:/model/image/label2.jpg);");
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
-    //layout_scroll_area->setStretch(0,20);
     scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
     scrollbar_in_scrollarea=ui->scrollArea->verticalScrollBar();
     scrollbar_in_scrollarea->setSliderDown(true);
@@ -66,13 +64,17 @@ void Main_b::on_searchBut_clicked()
     str_id = ui->search->text();
     req.setUrl(url->setGetUserChatsQuery(str_id));
     manage->get(req);
-    mThread->start();
-    hThread->start();
+    req.setUrl(url->setGetGroupChatsQuery(str_id));
+    manage->get(req);
+    req.setUrl(url->setGetChannelChatsQuery(str_id));
+    manage->get(req);
+    //mThread->start();
+
 }
 
 void Main_b::thread_rec(){
-
-    req.setUrl(url->setGetUserChatsQuery(str_id));
+    qDebug()<<"thread one";
+    req.setUrl(url->setGetUserChatsQuery(str_id,last_date));
     manage->get(req);
 
 
@@ -89,7 +91,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
     QString num_messages = pieces.value( pieces.length() - 2 );
      if(jobj["code"].toString() == "200"){
 
-        ui->search->setText("");
         ui->label->setText(str_id);
 
     }
@@ -105,7 +106,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
 
         QLabel *label2 = new QLabel(j.value("body").toString());
         label2->setWordWrap(true);
-        label2->setLineWidth(535);
         if(j.value("src") == username){
             label2->setAlignment(Qt::AlignRight);
         }
@@ -113,7 +113,16 @@ void Main_b::search_reply(QNetworkReply  *repl){
             label2->setAlignment(Qt::AlignLeft);
         }
         layout_scroll_area->addWidget(label2,0,Qt::AlignBottom);
-        scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
+        if(cnt == num_messages.toInt() - 1)
+            last_date=j.value("date").toString();
+            last_date.remove('-');
+            last_date.remove(' ');
+            last_date.remove(':');
+            long long date=last_date.toLongLong()+1;
+            qDebug()<<date;
+            last_date=date;
+            qDebug()<<last_date;
         }
 
 
@@ -131,8 +140,6 @@ void Main_b::on_logout_clicked()
 {
     req.setUrl( url -> setLogOutQuery(username ,password));
     manager ->get(req);
-
-
 }
 
 
@@ -181,7 +188,7 @@ void Main_b::on_send_clicked()
     label1->setAlignment(Qt::AlignRight);
     label1->setWordWrap(true);
     layout_scroll_area->addWidget(label1,0,Qt::AlignBottom);
-    scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
     }
 }
 
@@ -193,6 +200,36 @@ void Main_b::keyPressEvent (QKeyEvent *event)
     if(event->key()==Qt::Key_Enter||event->key()==Qt::Key_Return){
         on_send_clicked();
     }
+}
+
+void Main_b::reply_item_clicked(QListWidgetItem *item)
+{
+    remove_item_in_layout(layout_scroll_area);
+
+    ui->label->setText(item->text());
+    str_id = ui->label->text();
+    req.setUrl(url->setGetUserChatsQuery(str_id));
+    manage->get(req);
+    mThread->start();
+}
+
+void Main_b::remove_item_in_layout(QLayout *lay)
+{
+    QLayoutItem* child;
+    while(lay->count()!=0)
+        {
+            child = lay->takeAt(0);
+            if(child->layout() != 0)
+            {
+                remove_item_in_layout(child->layout());
+            }
+            else if(child->widget() != 0)
+            {
+                delete child->widget();
+            }
+
+            delete child;
+        }
 }
 
 void Main_b::showlist(QString str)
