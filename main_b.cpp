@@ -23,45 +23,34 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     group_create_net = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
-
+    connect(mThread, SIGNAL(thread_rec()),this, SLOT(thread_rec()));
+    connect(list_thread,SIGNAL(get_finished(QString)),this,SLOT(showlist(QString)));
     connect(mThread, SIGNAL(thread_rec()),this, SLOT(thread_rec()));
     connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),this, SLOT(search_reply(QNetworkReply  *repl)));
     connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
     connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
-
-    connect(mThread, SIGNAL(thread_rec()),
-                this, SLOT(thread_rec()));
-
-    connect(list_thread,SIGNAL(get_finished(QString)),this,SLOT(showlist(QString)));
-
+    connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
 
 
     url = new SetQuery;
     url->setToken(token);
 
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
     central_scroll_area = new QWidget;
     ui->scrollArea->setWidget(central_scroll_area);
     ui->scrollArea->setWidgetResizable(true);
     layout_scroll_area = new QVBoxLayout(central_scroll_area);
-
-    ui->comboBox->addItem("Create Channel");
-    ui->comboBox->addItem("Create Group");
-    ui->comboBox->addItem("Log Out");
-
     ui->listWidget->setStyleSheet("background-image: url(:/model/image/label2.jpg);");
-
     layout_scroll_area->setAlignment(central_scroll_area,Qt::AlignBottom);
-    //layout_scroll_area->setStretch(0,20);
     scrollbar_in_scrollarea  =new QScrollBar(Qt::Vertical);
     scrollbar_in_scrollarea=ui->scrollArea->verticalScrollBar();
     scrollbar_in_scrollarea->setSliderDown(true);
     central_scroll_area->setStyleSheet("background-image: url(:/model/image/5.jpg);");
+    ui->comboBox->addItem("Create Channel");
+    ui->comboBox->addItem("Create Group");
+    ui->comboBox->addItem("Log Out");
 
-
-
-
+    mThread->start();
 
 
 }
@@ -75,6 +64,20 @@ Main_b::~Main_b()
 }
 
 
+
+
+void Main_b::on_searchBut_clicked()
+{
+    str_id = ui->search->text();
+    req.setUrl(url->setGetUserChatsQuery(str_id));
+    manage->get(req);
+    req.setUrl(url->setGetGroupChatsQuery(str_id));
+    manage->get(req);
+    req.setUrl(url->setGetChannelChatsQuery(str_id));
+    manage->get(req);
+    //mThread->start();
+
+}
 void Main_b::set_mess_groupCre(QNetworkReply * r){
     QString rep_str = r->readAll();
     QJsonDocument jdoc = QJsonDocument::fromJson(rep_str.toUtf8());
@@ -92,22 +95,13 @@ void Main_b::set_mess_channelCre(QNetworkReply * r){
 }
 
 
-
-void Main_b::on_searchBut_clicked()
-{
-    str_id = ui->search->text();
-    req.setUrl(url->setGetUserChatsQuery(str_id));
-    manage->get(req);
-    mThread->start();
-    hThread->start();
-}
-
 void Main_b::thread_rec(){
-
-    req.setUrl(url->setGetUserChatsQuery(str_id));
+    str_id=ui->label->text();
+   // qDebug()<<str_id;
+    if(str_id != ""){
+    req.setUrl(url->setGetUserChatsQuery(str_id,last_date));
     manage->get(req);
-
-
+    }
 }
 
 
@@ -121,7 +115,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
     QString num_messages = pieces.value( pieces.length() - 2 );
      if(jobj["code"].toString() == "200"){
 
-        ui->search->setText("");
         ui->label->setText(str_id);
 
     }
@@ -137,7 +130,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
 
         QLabel *label2 = new QLabel(j.value("body").toString());
         label2->setWordWrap(true);
-        label2->setLineWidth(535);
         if(j.value("src") == username){
             label2->setAlignment(Qt::AlignRight);
         }
@@ -145,7 +137,16 @@ void Main_b::search_reply(QNetworkReply  *repl){
             label2->setAlignment(Qt::AlignLeft);
         }
         layout_scroll_area->addWidget(label2,0,Qt::AlignBottom);
-        scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
+        if(cnt == num_messages.toInt() - 1)
+            last_date=j.value("date").toString();
+            last_date.remove('-');
+            last_date.remove(' ');
+            last_date.remove(':');
+            long long date=last_date.toLongLong()+1;
+            qDebug()<<date;
+            last_date=date;
+            qDebug()<<last_date;
         }
 
 
@@ -156,8 +157,14 @@ void Main_b::search_reply(QNetworkReply  *repl){
 
 
 
+
 }
 
+void Main_b::on_logout_clicked()
+{
+    req.setUrl( url -> setLogOutQuery(username ,password));
+    manager ->get(req);
+}
 
 
 void Main_b ::Reply(QNetworkReply * rep){
@@ -205,7 +212,7 @@ void Main_b::on_send_clicked()
     label1->setAlignment(Qt::AlignRight);
     label1->setWordWrap(true);
     layout_scroll_area->addWidget(label1,0,Qt::AlignBottom);
-    scrollbar_in_scrollarea->setSliderPosition(scrollbar_in_scrollarea->maximumHeight());
+    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
     }
 }
 
@@ -219,7 +226,35 @@ void Main_b::keyPressEvent (QKeyEvent *event)
     }
 }
 
+void Main_b::reply_item_clicked(QListWidgetItem *item)
+{
+    remove_item_in_layout(layout_scroll_area);
+    last_date="";
+    ui->label->setText(item->text());
+    str_id = ui->label->text();
+//    req.setUrl(url->setGetUserChatsQuery(str_id));
+//    manage->get(req);
 
+}
+
+void Main_b::remove_item_in_layout(QLayout *lay)
+{
+    QLayoutItem* child;
+    while(lay->count()!=0)
+        {
+            child = lay->takeAt(0);
+            if(child->layout() != 0)
+            {
+                remove_item_in_layout(child->layout());
+            }
+            else if(child->widget() != 0)
+            {
+                delete child->widget();
+            }
+
+            delete child;
+        }
+}
 
 void Main_b::on_pushButton_clicked()
 {
@@ -251,8 +286,6 @@ void Main_b::showlist(QString str)
 {
 
     ui->listWidget->addItem(str);
-    //ui->listWidget->addItems(list_thread->get_groups());
-    //ui->listWidget->addItems(list_thread->get_channnels());
-}
 
+}
 

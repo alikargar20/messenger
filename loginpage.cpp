@@ -31,7 +31,6 @@ void LoginPage::replyLog(QNetworkReply * reply){
     token=rep_obj["token"].toString();
 
     ui->textEdit->setText(rep_obj["message"].toString());
-    //qDebug()<<rep_obj["code"].toString();
     if(rep_obj["code"].toString() == "200" ){
         Main_b *w = new Main_b(token , user , pass ,this);
         w->show();
