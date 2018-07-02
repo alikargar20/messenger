@@ -1,25 +1,35 @@
 #ifndef THREAD_H
 #define THREAD_H
-
 #include <QThread>
-#include<QNetworkReply>
+#include <QTimer>
+#include "setquery.h"
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QObject>
+#include <QJsonDocument>
+#include <QJsonObject>
 class Thread : public QThread
 {
     Q_OBJECT
 public:
-    explicit Thread(QObject *parent = 0, bool b = false);
-    void run();
-
-    // if Stop = true, the thread will break
-    // out of the loop, and will be disposed
-    bool Stop;
-    QNetworkReply * repl;
+    explicit Thread(QString token,QObject *parent = 0);
+    void setId(QString id);
+    void setLastDate(QString date);
+private:
+    QTimer *timer;
+    QString last_date;
+    QString id;
+    SetQuery *url;
+    QNetworkRequest  req;
+    QNetworkAccessManager *manager;
 signals:
-    // To communicate with Gui Thread
-    // we need to emit a signal
-    void thread_rec();
-    void search_reply(QNetworkReply  *repl);
+    void get_finished(QString,QString);
+
+
 public slots:
+    void receive_thread();
+    void getChat(QNetworkReply* repl);
 
 };
 

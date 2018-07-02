@@ -14,8 +14,7 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     this->username = user;
     this->password = pass;
     ui->setupUi(this);
-    mThread = new Thread(this);
-    hThread = new Thread(this);
+    mThread = new Thread(token,this);
     list_thread=new GetList(token,this);
     manager = new QNetworkAccessManager(this);
     manage = new QNetworkAccessManager(this);
@@ -25,15 +24,19 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     gp_join = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
-    connect(mThread, SIGNAL(thread_rec()),this, SLOT(thread_rec()));
+    connect(mThread, SIGNAL(get_finished(QString,QString)),this, SLOT(makeLabel(QString,QString)));
     connect(list_thread,SIGNAL(get_finished(QString)),this,SLOT(showlist(QString)));
-    connect(mThread, SIGNAL(thread_rec()),this, SLOT(thread_rec()));
-    connect(hThread, SIGNAL(search_reply(QNetworkReply  *repl)),this, SLOT(search_reply(QNetworkReply  *repl)));
     connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
     connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
     connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
+<<<<<<< HEAD
     connect(cha_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
     connect(gp_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
+=======
+    connect(this,SIGNAL(textLabelChanged(QString)),this,SLOT(id_set(QString)));
+
+
+>>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
     url = new SetQuery;
     url->setToken(token);
 
@@ -55,16 +58,16 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     ui->comboBox->addItem("Join Group");
 
 
-    mThread->start();
+    //mThread->start();
 
 
 }
 
 Main_b::~Main_b()
 {
-    mThread->Stop = true;
-    hThread->Stop = true;
+
     delete list_thread;
+    delete mThread;
     delete ui;
 }
 
@@ -100,14 +103,7 @@ void Main_b::set_mess_channelCre(QNetworkReply * r){
 }
 
 
-void Main_b::thread_rec(){
-    str_id=ui->label->text();
-   // qDebug()<<str_id;
-    if(str_id != ""){
-    req.setUrl(url->setGetUserChatsQuery(str_id,last_date));
-    manage->get(req);
-    }
-}
+
 
 
 void Main_b::search_reply(QNetworkReply  *repl){
@@ -121,53 +117,47 @@ void Main_b::search_reply(QNetworkReply  *repl){
      if(jobj["code"].toString() == "200"){
 
         ui->label->setText(str_id);
+        emit textLabelChanged(str_id);
 
-    }
+
+     QString txt;
      for(int cnt = 0 ; cnt < num_messages.toInt() ; cnt++ ){
         QString block_str = "block ";
         block_str += QString::number(cnt);
         QJsonObject j = jobj.value(block_str).toObject();
-        if(j.value("body").toString() != ""){
-            if(j.value("body").toString().length()>62){
-                for(int i=1;i<=j.value("body").toString().length()/62;i++)
-                j.value("body").toString().insert(i*62,"\n");
+        txt=j.value("body").toString();
+        if(last_date==j.value("date").toString())
+            continue;
+        if(txt != ""){
+            if(txt.length()>62){
+                for(int i=1;i<=txt.length()/62;i++)
+                txt.insert(i*62,"\n");
             }
-
-        QLabel *label2 = new QLabel(j.value("body").toString());
-        label2->setWordWrap(true);
-        if(j.value("src") == username){
-            label2->setAlignment(Qt::AlignRight);
-        }
-        else{
-            label2->setAlignment(Qt::AlignLeft);
-        }
-        layout_scroll_area->addWidget(label2,0,Qt::AlignBottom);
-        ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
-        if(cnt == num_messages.toInt() - 1)
+        makeLabel(txt,j.value("src").toString());
+        if(cnt == num_messages.toInt() - 1){
             last_date=j.value("date").toString();
-            last_date.remove('-');
-            last_date.remove(' ');
-            last_date.remove(':');
-            long long date=last_date.toLongLong()+1;
-            qDebug()<<date;
-            last_date=date;
-            qDebug()<<last_date;
+        }
+
+        }
         }
 
 
-
-
-
-     }
-
-
-
+    }
 
 }
+<<<<<<< HEAD
+=======
+void Main_b::on_logout_clicked()
+{
+    req.setUrl( url -> setLogOutQuery(username ,password));
+    manager ->get(req);
+}
+>>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
 
 
 void Main_b ::Reply(QNetworkReply * rep){
     delete list_thread;
+    delete mThread;
     QString str = rep ->readAll();
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
@@ -206,12 +196,7 @@ void Main_b::on_send_clicked()
             str_mess.insert(i*62,"\n");
         }
     }
-    QLabel *label1 = new QLabel(str_mess);
-   // label1->setPixmap(QPixmap(":/model/image/label1.png"));
-    label1->setAlignment(Qt::AlignRight);
-    label1->setWordWrap(true);
-    layout_scroll_area->addWidget(label1,0,Qt::AlignBottom);
-    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
+    makeLabel(str_mess,username);
     }
 }
 
@@ -231,6 +216,7 @@ void Main_b::reply_item_clicked(QListWidgetItem *item)
     last_date="";
     ui->label->setText(item->text());
     str_id = ui->label->text();
+    emit textLabelChanged(str_id);
 //    req.setUrl(url->setGetUserChatsQuery(str_id));
 //    manage->get(req);
 
@@ -319,6 +305,28 @@ void Main_b::showlist(QString str)
 {
 
     ui->listWidget->addItem(str);
+
+}
+
+void Main_b::id_set(QString s)
+{
+    mThread->setId(s);
+    mThread->setLastDate("");
+
+}
+
+void Main_b::makeLabel(QString txt, QString src)
+{
+    QLabel *label2 = new QLabel(txt);
+    label2->setWordWrap(true);
+    if(src == username){
+        label2->setAlignment(Qt::AlignRight);
+    }
+    else{
+        label2->setAlignment(Qt::AlignLeft);
+    }
+    layout_scroll_area->addWidget(label2,0,Qt::AlignBottom);
+    ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
 
 }
 
