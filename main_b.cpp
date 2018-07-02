@@ -118,6 +118,7 @@ void Main_b::search_reply(QNetworkReply  *repl){
 
         ui->label->setText(str_id);
         emit textLabelChanged(str_id);
+        remove_item_in_layout(layout_scroll_area);
 
 
      QString txt;
@@ -196,7 +197,6 @@ void Main_b::on_send_clicked()
             str_mess.insert(i*62,"\n");
         }
     }
-    makeLabel(str_mess,username);
     }
 }
 

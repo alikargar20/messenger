@@ -8,7 +8,7 @@ Thread::Thread(QString token, QObject *parent) : QThread(parent)
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(receive_thread()));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(getChat(QNetworkReply*)));
-    timer->start(500);
+    timer->start(1000);
 }
 
 void Thread::setId(QString id)
@@ -23,26 +23,9 @@ void Thread::setLastDate(QString date)
 
 void Thread::receive_thread()
 {
-<<<<<<< HEAD
-    while(true)
-    {
-        QMutex mutex;
-        // prevent other threads from changing the "Stop" value
-        mutex.lock();
-        if(this->Stop) break;
-        mutex.unlock();
-
-        // emit the signal for the count label
-       // emit search_reply(repl);
-        emit thread_rec();
-
-        // slowdown the count change, msec
-        this->msleep(7000);
-=======
     if(id != ""){
     req.setUrl(url->setGetUserChatsQuery(id,last_date));
     manager->get(req);
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
     }
 }
 
@@ -54,18 +37,20 @@ void Thread::getChat(QNetworkReply *repl)
     QString mess = jobj["message"].toString();
     QStringList pieces = mess.split( "-" );
     QString num_messages = pieces.value( pieces.length() - 2 );
-    qDebug()<<num_messages;
      if(jobj["code"].toString() == "200"){
              QString txt;
+             QString last;
              for(int cnt = 0 ; cnt < num_messages.toInt() ; cnt++ ){
                 QString block_str = "block ";
                 block_str += QString::number(cnt);
-               // qDebug()<<block_str;
                 QJsonObject j = jobj.value(block_str).toObject();
                 txt=j.value("body").toString();
-                qDebug()<<txt;
-                if(last_date==j.value("date").toString())
-                    continue;
+                last=j.value("date").toString();
+                last.remove('-');
+                last.remove(' ');
+                last.remove(':');
+                if(last_date==last)
+                      continue;
                 if(txt != ""){
                     if(txt.length()>62){
                         for(int i=1;i<=txt.length()/62;i++)
@@ -75,8 +60,10 @@ void Thread::getChat(QNetworkReply *repl)
 
                 if(cnt == num_messages.toInt() - 1){
                     last_date=j.value("date").toString();
+                    last_date.remove('-');
+                    last_date.remove(' ');
+                    last_date.remove(':');
                      }
-                qDebug()<<j.value("src").toString()<<" :: "<<txt;
                     emit get_finished(txt,j.value("src").toString());
                  }
             }
