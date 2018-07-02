@@ -25,6 +25,7 @@ void SendRecieveMess::send_group(QString grp_id , QString mess , QString token){
     req.setUrl(url->setSendMessageGroup(grp_id , mess));
     net->get(req);
 
+
 }
 
 

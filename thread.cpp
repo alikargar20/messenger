@@ -22,6 +22,6 @@ void Thread::run()
         emit thread_rec();
 
         // slowdown the count change, msec
-        this->msleep(4000);
+        this->msleep(7000);
     }
 }
