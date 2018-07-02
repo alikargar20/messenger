@@ -18,6 +18,8 @@
 #include <QCloseEvent>
 #include<QThread>
 #include "getlist.h"
+#include<QMessageBox>
+#include"creation.h"
 
 
 namespace Ui {
@@ -40,6 +42,10 @@ public:
     GetList *list_thread;
     void reply_item_clicked(QListWidgetItem *item);
     void remove_item_in_layout(QLayout *lay);
+    QNetworkAccessManager *channel_create_net;
+    QNetworkAccessManager *group_create_net;
+    void set_mess_groupCre(QNetworkReply * r);
+    void set_mess_channelCre(QNetworkReply * r);
 
 
 private:
@@ -59,8 +65,7 @@ private:
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
     QStringList list;
-    QThread thread;
-    QThread thread2;
+
 
 
 
@@ -68,9 +73,10 @@ public slots:
     void search_reply(QNetworkReply *repl);
     void thread_rec();
     void showlist(QString str);
+
 private slots:
 
-
+    void on_pushButton_clicked();
     void on_searchBut_clicked();
     void on_logout_clicked();
     void on_send_clicked();
