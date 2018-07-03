@@ -29,14 +29,11 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
     connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
     connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
-<<<<<<< HEAD
     connect(cha_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
     connect(gp_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
-=======
     connect(this,SIGNAL(textLabelChanged(QString)),this,SLOT(id_set(QString)));
 
 
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
     url = new SetQuery;
     url->setToken(token);
 
@@ -146,14 +143,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
     }
 
 }
-<<<<<<< HEAD
-=======
-void Main_b::on_logout_clicked()
-{
-    req.setUrl( url -> setLogOutQuery(username ,password));
-    manager ->get(req);
-}
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
 
 
 void Main_b ::Reply(QNetworkReply * rep){
@@ -295,8 +284,10 @@ void Main_b::on_pushButton_clicked()
 
 void Main_b::reply_join(QNetworkReply * r){
     QString str = r ->readAll();
+    qDebug()<<str;
     QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
     QJsonObject obj=jdoc.object();
+    qDebug()<<"ADFADFAF";
     qDebug()<<obj["message"].toString();
     ui->createlabel->setText(obj["message"].toString());
 }

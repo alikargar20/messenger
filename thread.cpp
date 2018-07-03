@@ -1,5 +1,5 @@
 #include "thread.h"
-
+#include<QStringList>
 Thread::Thread(QString token, QObject *parent) : QThread(parent)
 {
     url=new SetQuery;

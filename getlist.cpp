@@ -34,10 +34,6 @@ void GetList::getuserlist_reply(QNetworkReply *repl){
     QString mess = rep_obj["message"].toString();
     QStringList pieces = mess.split( "-" );
     QString num_user = pieces.value( pieces.length() - 2 );
-<<<<<<< HEAD
-    //qDebug()<<pieces.length();
-=======
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
     if(rep_obj["code"].toString()=="200"){
       for(int i=0;i<num_user.toInt();i++){
         QString block_str = "block ";
