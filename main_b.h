@@ -39,7 +39,7 @@ public:
     void remove_item_in_layout(QLayout *lay);
     void set_mess_groupCre(QNetworkReply * r);
     void set_mess_channelCre(QNetworkReply * r);
-
+    void reply_join(QNetworkReply * r);
 
 private:
     Ui::Main_b *ui;
@@ -50,7 +50,10 @@ private:
     QNetworkAccessManager *group_create_net;
     Thread *mThread;
     GetList *list_thread;
+    QNetworkAccessManager *cha_join;
+    QNetworkAccessManager *gp_join;
     QNetworkRequest  req;
+    QNetworkRequest request;
     QString token;
     SetQuery * url;
     QString username;
@@ -61,6 +64,7 @@ private:
     QScrollBar *scrollbar_in_scrollarea;
 
 
+    
 
 
 

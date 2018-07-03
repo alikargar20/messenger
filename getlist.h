@@ -11,7 +11,7 @@
 #include <QTimer>
 #include <QThread>
 #include <QMutex>
-
+#include<QStringList>
 
 class GetList:public QThread
 {

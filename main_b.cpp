@@ -20,6 +20,8 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     manage = new QNetworkAccessManager(this);
     channel_create_net = new QNetworkAccessManager(this);
     group_create_net = new QNetworkAccessManager(this);
+    cha_join = new QNetworkAccessManager(this);
+    gp_join = new QNetworkAccessManager(this);
     connect(manager,&QNetworkAccessManager::finished,this,&Main_b::Reply);
     connect(manage,&QNetworkAccessManager::finished,this,&Main_b::search_reply);
     connect(mThread, SIGNAL(get_finished(QString,QString)),this, SLOT(makeLabel(QString,QString)));
@@ -27,8 +29,9 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
     connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
     connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
+    connect(cha_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
+    connect(gp_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
     connect(this,SIGNAL(textLabelChanged(QString)),this,SLOT(id_set(QString)));
-
 
 
     url = new SetQuery;
@@ -48,6 +51,9 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     ui->comboBox->addItem("Create Channel");
     ui->comboBox->addItem("Create Group");
     ui->comboBox->addItem("Log Out");
+    ui->comboBox->addItem("Join Channel");
+    ui->comboBox->addItem("Join Group");
+
 
 
 
@@ -140,7 +146,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
 }
 
 
-
 void Main_b ::Reply(QNetworkReply * rep){
     delete list_thread;
     delete mThread;
@@ -150,9 +155,9 @@ void Main_b ::Reply(QNetworkReply * rep){
     if(obj["code"].toString() == "200"){
 
         LoginPage *log = new LoginPage;
+        log->show();
         setCentralWidget(log);
         log->setGeometry(300,40,795,715);
-        log->show();
 
 
     }
@@ -228,9 +233,18 @@ void Main_b::on_pushButton_clicked()
     if(str_combo == "Log Out"){
         req.setUrl( url -> setLogOutQuery(username ,password));
         manager ->get(req);
+        QString filename="/home/siavash/git messanger/messenger_L/save.txt";
+        QFile file( filename );
+        if ( file.open(QIODevice::WriteOnly) )
+        {
+            QTextStream stream( &file );
+
+            stream << "00"<< endl ;
+
 
     }
-
+        file.close();
+}
     else if(str_combo == "Create Group"){
 
         QString group_name = ui->creation_name->text();
@@ -247,6 +261,31 @@ void Main_b::on_pushButton_clicked()
         channel_cre.create_channel(token , channel_name , channel_create_net);
     }
 
+
+    else if(str_combo == "Join Channel"){
+
+        QString channel_name = ui->creation_name->text();
+        request.setUrl(url->setJoinChannelQuery(channel_name));
+        cha_join->get(request);
+
+    }
+
+
+    else if(str_combo == "Join group"){
+
+        QString group_name = ui->creation_name->text();
+        request.setUrl(url->setJoinGroupQuery(group_name));
+        gp_join->get(request);
+
+    }
+}
+
+void Main_b::reply_join(QNetworkReply * r){
+    QString str = r ->readAll();
+    QJsonDocument jdoc=QJsonDocument::fromJson(str.toUtf8());
+    QJsonObject obj=jdoc.object();
+    qDebug()<<obj["message"].toString();
+    ui->createlabel->setText(obj["message"].toString());
 }
 
 void Main_b::showlist(QString str)
