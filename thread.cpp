@@ -8,7 +8,7 @@ Thread::Thread(QString token, QObject *parent) : QThread(parent)
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(receive_thread()));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(getChat(QNetworkReply*)));
-    timer->start(1000);
+    timer->start(900);
 }
 
 void Thread::setId(QString id)
@@ -26,6 +26,10 @@ void Thread::receive_thread()
 
     if(id != ""){
     req.setUrl(url->setGetUserChatsQuery(id,last_date));
+    manager->get(req);
+    req.setUrl(url->setGetGroupChatsQuery(id,last_date));
+    manager->get(req);
+    req.setUrl(url->setGetChannelChatsQuery(id,last_date));
     manager->get(req);
     }
 }
