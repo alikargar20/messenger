@@ -6,7 +6,6 @@
 #include "ui_loginpage.h"
 #include "thread.h"
 #include <QApplication>
-#include<QPainter>
 #include<QPixmap>
 #include<QGraphicsPixmapItem>
 #include"register.h"
@@ -34,16 +33,10 @@ public:
     explicit Main_b( QString token , QString user , QString pass , QWidget *parent = 0);
     ~Main_b();
     void Reply(QNetworkReply * rep);
-    //friend class GetList;
     void closeEvent(QCloseEvent * e);
     void keyPressEvent(QKeyEvent *event);
-    Thread *mThread;
-    Thread *hThread;
-    GetList *list_thread;
     void reply_item_clicked(QListWidgetItem *item);
     void remove_item_in_layout(QLayout *lay);
-    QNetworkAccessManager *channel_create_net;
-    QNetworkAccessManager *group_create_net;
     void set_mess_groupCre(QNetworkReply * r);
     void set_mess_channelCre(QNetworkReply * r);
     void reply_join(QNetworkReply * r);
@@ -53,7 +46,10 @@ private:
     QString last_date;
     QNetworkAccessManager *manager;
     QNetworkAccessManager *manage;
-    QNetworkAccessManager *n;
+    QNetworkAccessManager *channel_create_net;
+    QNetworkAccessManager *group_create_net;
+    Thread *mThread;
+    GetList *list_thread;
     QNetworkAccessManager *cha_join;
     QNetworkAccessManager *gp_join;
     QNetworkRequest  req;
@@ -63,13 +59,12 @@ private:
     QString username;
     QString password;
     QString str_id;
-    QString sum_str = "";
     QWidget *central_scroll_area;
     QVBoxLayout *layout_scroll_area;
     QScrollBar *scrollbar_in_scrollarea;
-    QStringList list;
 
-    //void keyPressEvent(QKeyEvent *event);
+
+    
 
 
 
@@ -78,6 +73,7 @@ public slots:
     void showlist(QString str);
     void id_set(QString s);
     void makeLabel(QString txt, QString src);
+
 
 private slots:
 

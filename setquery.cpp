@@ -143,7 +143,7 @@ QUrl SetQuery::setJoinChannelQuery(QString channel_name)
 {
     url.setUrl(url_str+"joinchannel");
     query.addQueryItem("token",token);
-    query.addQueryItem("channel",channel_name);
+    query.addQueryItem("channel_name",channel_name);
     url.setQuery(query);
     query.clear();
     return url;

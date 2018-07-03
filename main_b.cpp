@@ -29,14 +29,11 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     connect(group_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_groupCre);
     connect(channel_create_net , &QNetworkAccessManager::finished , this , &Main_b::set_mess_channelCre);
     connect(ui->listWidget,&QListWidget::itemClicked,this,&Main_b::reply_item_clicked);
-<<<<<<< HEAD
     connect(cha_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
     connect(gp_join , &QNetworkAccessManager::finished , this , &Main_b::reply_join);
-=======
     connect(this,SIGNAL(textLabelChanged(QString)),this,SLOT(id_set(QString)));
 
 
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
     url = new SetQuery;
     url->setToken(token);
 
@@ -58,7 +55,8 @@ Main_b::Main_b(QString token, QString user , QString pass ,QWidget *parent) :
     ui->comboBox->addItem("Join Group");
 
 
-    //mThread->start();
+
+
 
 
 }
@@ -146,14 +144,6 @@ void Main_b::search_reply(QNetworkReply  *repl){
     }
 
 }
-<<<<<<< HEAD
-=======
-void Main_b::on_logout_clicked()
-{
-    req.setUrl( url -> setLogOutQuery(username ,password));
-    manager ->get(req);
-}
->>>>>>> 3a2a7b4b854554e07119c17bb9a60a9792f6eccc
 
 
 void Main_b ::Reply(QNetworkReply * rep){
@@ -191,12 +181,9 @@ void Main_b::on_send_clicked()
     SendRecieveMess send_obj;
     if(str_mess != ""){
     send_obj.send_user(str_id , str_mess , token);
+    send_obj.send_channel(str_id,str_mess,token);
+    send_obj.send_group(str_id,str_mess,token);
     ui->typekon->setText("");
-    if(str_mess.length()>62){
-        for(int i=1;i<=str_mess.length()/62;i++){
-            str_mess.insert(i*62,"\n");
-        }
-    }
     }
 }
 
@@ -217,8 +204,7 @@ void Main_b::reply_item_clicked(QListWidgetItem *item)
     ui->label->setText(item->text());
     str_id = ui->label->text();
     emit textLabelChanged(str_id);
-//    req.setUrl(url->setGetUserChatsQuery(str_id));
-//    manage->get(req);
+
 
 }
 
@@ -275,6 +261,7 @@ void Main_b::on_pushButton_clicked()
         channel_cre.create_channel(token , channel_name , channel_create_net);
     }
 
+
     else if(str_combo == "Join Channel"){
 
         QString channel_name = ui->creation_name->text();
@@ -303,9 +290,7 @@ void Main_b::reply_join(QNetworkReply * r){
 
 void Main_b::showlist(QString str)
 {
-
     ui->listWidget->addItem(str);
-
 }
 
 void Main_b::id_set(QString s)
@@ -329,4 +314,6 @@ void Main_b::makeLabel(QString txt, QString src)
     ui->scrollArea->verticalScrollBar()->setValue(ui->scrollArea->verticalScrollBar()->maximum());
 
 }
+
+
 
